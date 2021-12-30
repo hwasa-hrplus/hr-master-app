@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8" />
+<title>Main</title>
+</head>
+<body>
+	<h1>메인 페이지</h1>
+	<hr/>
+	<div sec:authorize="isAuthenticated()">
+		<span sec:authentication="name"></span>님 환영합니다.
+	</div>
+	<!-- 익명의 사용자 -->
+	<a sec:authorize="isAnonymous()" th:href="@{/user/login}">로그인</a>
+	<a sec:authorize="isAnonymous()" th:href="@{/signup}">회원가입</a>
+	<!-- 인증된 사용자 -->
+	<a sec:authorize="isAuthenticated()" th:href="@{/logout}">로그아웃</a>
+	<!-- 특정 권한의 사용자 -->
+	<a sec:authorize="hasRole('ROLE_MEMBER')" th:href="@{/info}">내정보</a>
+	<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin}">어드민</a>
+</body>
+</html>
