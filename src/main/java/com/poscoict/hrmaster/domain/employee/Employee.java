@@ -69,7 +69,7 @@ public class Employee implements UserDetails {
 	private JobCategory jobCategoryCode;
 
 	@Column(name = "boss_id")
-	private String boss_id;
+	private String bossId;
 
 	@ManyToOne
 	@JoinColumn(name = "boss_id", referencedColumnName = "boss_id", insertable = false, updatable = false)
@@ -114,9 +114,9 @@ public class Employee implements UserDetails {
 
 	@Builder
 	public Employee(Long id, String email, String password, String role, Files filesId, Department departmentCode,
-			StaffLevel stafflevelCode, JobCategory jobCategoryCode, Employee employeeId, WorkPlace workPlaceCode,
-			String korName, String engName, Date startDate, String residentNum, int age, String gender,
-			boolean workType, String phone, Date birthDate, String address, String projectCode) {
+			StaffLevel stafflevelCode, JobCategory jobCategoryCode, String bossId, Employee employeeId,
+			WorkPlace workPlaceCode, String korName, String engName, Date startDate, String residentNum, int age,
+			String gender, boolean workType, String phone, Date birthDate, String address, String projectCode) {
 		super();
 		this.id = id;
 		this.email = email;
@@ -126,6 +126,7 @@ public class Employee implements UserDetails {
 		this.departmentCode = departmentCode;
 		this.stafflevelCode = stafflevelCode;
 		this.jobCategoryCode = jobCategoryCode;
+		this.bossId = bossId;
 		this.employeeId = employeeId;
 		this.workPlaceCode = workPlaceCode;
 		this.korName = korName;
@@ -140,7 +141,6 @@ public class Employee implements UserDetails {
 		this.address = address;
 		this.projectCode = projectCode;
 	}
-
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Set<GrantedAuthority> roles = new HashSet<>();
@@ -179,4 +179,6 @@ public class Employee implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
+
+	
 }
