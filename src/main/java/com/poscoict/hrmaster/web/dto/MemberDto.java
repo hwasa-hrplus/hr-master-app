@@ -1,6 +1,6 @@
 package com.poscoict.hrmaster.web.dto;
 
-import com.poscoict.hrmaster.domain.member.Member;
+import com.poscoict.hrmaster.domain.employee.Employee;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -16,9 +16,10 @@ public class MemberDto {
 	private String email;
 	private String password;
 	private String role;
+	
 
-	public Member toEntity() {
-		return Member.builder().email(email).password(password).role(role).build();
+	public Employee toEntity() {
+		return Employee.builder().email(email).password(password).role(role).build();
 	}
 
 	@Builder

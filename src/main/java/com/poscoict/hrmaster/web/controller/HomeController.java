@@ -55,8 +55,8 @@ public class HomeController {
 
 	/** * 회원가입 처리 * @param memberDto * @return */
 	@PostMapping("/signup")
-	public String signup(MemberDto memberDto) {
-		memberService.joinUser(memberDto);
+	public String signup(MemberDto MemberDto) {
+		memberService.joinUser(MemberDto);
 		return "redirect:/user/login";
 	}
 
