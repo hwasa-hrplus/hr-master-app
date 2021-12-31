@@ -7,7 +7,6 @@ import com.poscoict.hrmaster.domain.employee.Employee;
 import com.poscoict.hrmaster.domain.jobcategory.JobCategory;
 import com.poscoict.hrmaster.domain.stafflevel.StaffLevel;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,7 +16,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @NoArgsConstructor
-public class HrFixedDto {
+public class HrFixedinsertDto {
 	private String email;
 	private Long filesId;
 	private Long id;
@@ -28,9 +27,10 @@ public class HrFixedDto {
 	private String residentNum;
 	private int age;
 	private String gender;
-	private Department departmentCode;
-	private StaffLevel stafflevelCode;
-	private JobCategory jobCategoryCode;
+	private String department;
+	
+	private StaffLevel stafflevel;
+	private JobCategory jobCategory;
 
 	public HrFixedDto(Employee entity) {
 		this.email = entity.getEmail();
@@ -42,8 +42,8 @@ public class HrFixedDto {
 		this.residentNum = entity.getResidentNum();
 		this.age = entity.getAge();
 		this.gender = entity.getGender();
-		this.departmentCode = entity.getDepartmentCode();
-		this.stafflevelCode = entity.getStafflevelCode();
-		this.jobCategoryCode = entity.getJobCategoryCode();
+		this.department = entity.getDepartment();
+		this.stafflevel = entity.getStafflevel();
+		this.jobCategory = entity.getJobCategory();
 	}
 }

@@ -3,19 +3,18 @@ package com.poscoict.hrmaster.domain.employee;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -25,6 +24,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.poscoict.hrmaster.domain.department.Department;
 import com.poscoict.hrmaster.domain.files.Files;
 import com.poscoict.hrmaster.domain.jobcategory.JobCategory;
+import com.poscoict.hrmaster.domain.project.Project;
 import com.poscoict.hrmaster.domain.stafflevel.StaffLevel;
 import com.poscoict.hrmaster.domain.workplace.WorkPlace;
 
@@ -38,6 +38,9 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "employee")
 public class Employee implements UserDetails {
+
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,15 +61,19 @@ public class Employee implements UserDetails {
 
 	@ManyToOne
 	@JoinColumn(name = "department_code")
-	private Department departmentCode;
+	private Department department;
 
 	@ManyToOne
 	@JoinColumn(name = "staff_level_code")
-	private StaffLevel stafflevelCode;
+	private StaffLevel stafflevel;
 
 	@ManyToOne
 	@JoinColumn(name = "job_category_code")
-	private JobCategory jobCategoryCode;
+	private JobCategory jobCategory;
+	
+	@ManyToOne
+	@JoinColumn(name = "project_code")
+	private Project project;
 
 	@Column(name = "boss_id")
 	private String bossId;
@@ -77,7 +84,7 @@ public class Employee implements UserDetails {
 
 	@ManyToOne
 	@JoinColumn(name = "workplace_code")
-	private WorkPlace workPlaceCode;
+	private WorkPlace workPlace;
 
 	@Column(name = "kor_name")
 	private String korName;
@@ -109,26 +116,25 @@ public class Employee implements UserDetails {
 	@Column(name = "address")
 	private String address;
 
-	@Column(name = "project_code")
-	private String projectCode;
+
 
 	@Builder
-	public Employee(Long id, String email, String password, String role, Files filesId, Department departmentCode,
-			StaffLevel stafflevelCode, JobCategory jobCategoryCode, String bossId, Employee employeeId,
-			WorkPlace workPlaceCode, String korName, String engName, Date startDate, String residentNum, int age,
-			String gender, boolean workType, String phone, Date birthDate, String address, String projectCode) {
+	public Employee(Long id, String email, String password, String role, Files filesId, Department department,
+			StaffLevel stafflevel, JobCategory jobCategory, String bossId, Employee employeeId,
+			WorkPlace workPlace, String korName, String engName, Date startDate, String residentNum, int age,
+			String gender, boolean workType, String phone, Date birthDate, String address, Project project) {
 		super();
 		this.id = id;
 		this.email = email;
 		this.password = password;
 		this.role = role;
 		this.filesId = filesId;
-		this.departmentCode = departmentCode;
-		this.stafflevelCode = stafflevelCode;
-		this.jobCategoryCode = jobCategoryCode;
+		this.department = department;
+		this.stafflevel = stafflevel;
+		this.jobCategory = jobCategory;
 		this.bossId = bossId;
 		this.employeeId = employeeId;
-		this.workPlaceCode = workPlaceCode;
+		this.workPlace = workPlace;
 		this.korName = korName;
 		this.engName = engName;
 		this.startDate = startDate;
@@ -139,8 +145,9 @@ public class Employee implements UserDetails {
 		this.phone = phone;
 		this.birthDate = birthDate;
 		this.address = address;
-		this.projectCode = projectCode;
+		this.project = project;
 	}
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Set<GrantedAuthority> roles = new HashSet<>();
@@ -181,4 +188,31 @@ public class Employee implements UserDetails {
 	}
 
 	
+	//update logic
+	public void updateForAdmin(Map<String, Object> employeeInfo) {
+		this.id = (Long) employeeInfo.get("id");
+		this.email = (String) employeeInfo.get("email");
+		this.role = (String) employeeInfo.get("role");
+		this.filesId = (Files) employeeInfo.get("filesId");
+		this.department = (Department) employeeInfo.get("department");
+		this.stafflevel = (StaffLevel) employeeInfo.get("stafflevel");
+		this.jobCategory = (JobCategory) employeeInfo.get("jobCategory");
+		this.korName = (String) employeeInfo.get("korName");
+		this.engName = (String) employeeInfo.get("engName");
+		this.startDate = (Date) employeeInfo.get("startDate");
+		this.residentNum = (String) employeeInfo.get("residentNum");
+		this.age = (int) employeeInfo.get("age");
+		this.gender = (String) employeeInfo.get("gender");
+
+	}
+
+	public void updateForEmployee(Map<String, Object> employeeInfo) {
+		this.korName = (String) employeeInfo.get("korName");
+		this.engName = (String) employeeInfo.get("engName");
+		this.filesId = (Files) employeeInfo.get("filesId");
+		
+		System.out.println("entity: " + (String) employeeInfo.get("engName"));
+
+	}
+
 }
