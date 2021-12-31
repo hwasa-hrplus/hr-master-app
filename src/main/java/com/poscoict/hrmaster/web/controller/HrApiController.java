@@ -18,9 +18,9 @@ public class HrApiController {
 	
 	@GetMapping("/api/v1/hrfixed/{id}")
     public HrFixedDto findById(@PathVariable Long id){		 
-        return hrService.findById(id);
+        return hrService.findById(id); //정보만 return
     }
-	
+		
 	@DeleteMapping("/api/v1/hrfixed/{id}")
     public Long delete(@PathVariable Long id){
 		hrService.delete(id);
