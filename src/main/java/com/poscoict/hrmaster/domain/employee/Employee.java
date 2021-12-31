@@ -69,7 +69,7 @@ public class Employee implements UserDetails {
 	private JobCategory jobCategoryCode;
 
 	@Column(name = "boss_id")
-	private String bossId;
+	private Long bossId;
 
 	@ManyToOne
 	@JoinColumn(name = "boss_id", referencedColumnName = "boss_id", insertable = false, updatable = false)
@@ -114,7 +114,7 @@ public class Employee implements UserDetails {
 
 	@Builder
 	public Employee(Long id, String email, String password, String role, Files filesId, Department departmentCode,
-			StaffLevel stafflevelCode, JobCategory jobCategoryCode, String bossId, Employee employeeId,
+			StaffLevel stafflevelCode, JobCategory jobCategoryCode, Long bossId, Employee employeeId,
 			WorkPlace workPlaceCode, String korName, String engName, Date startDate, String residentNum, int age,
 			String gender, boolean workType, String phone, Date birthDate, String address, String projectCode) {
 		super();

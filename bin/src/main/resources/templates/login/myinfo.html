@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8" />
+<title>MyInfo</title>
+</head>
+<body>
+	<h1>내 정보</h1>
+	
+	<hr/>
+	<span>이메일: </span>
+	<span sec:authentication="name"></span><br/>
+	<span>권한: </span>
+    <span sec:authentication="principal.authorities"></span><br/>
+    
+    <a href="/">홈</a>
+</body>
+</html>

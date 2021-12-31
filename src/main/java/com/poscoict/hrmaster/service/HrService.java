@@ -1,5 +1,10 @@
 package com.poscoict.hrmaster.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
 import com.poscoict.hrmaster.domain.employee.Employee;
@@ -19,4 +24,14 @@ public class HrService {
       
         return new HrFixedDto(entity);
     }
+	
+	
+	// post for admin 
+    @Transactional
+    public Long saveByAdmin(HrFixedDto hrFixedDto){
+
+        return employeeRepository.save(hrFixedDto.toEntity()).getId();
+    }
+	
+	
 }

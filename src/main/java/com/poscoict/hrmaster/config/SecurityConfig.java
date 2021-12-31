@@ -56,7 +56,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.invalidateHttpSession(true) // HTTP Session 초기화
 				.deleteCookies("JSESSIONID") // 특정 쿠키 제거
 				.and() // 403 예외처리 핸들링
+				.csrf()
+				.ignoringAntMatchers("/api/**/**")
+				.and()
 				.exceptionHandling().accessDeniedPage("/denied");
+		
 	}
 
 	/**
