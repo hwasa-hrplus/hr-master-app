@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RestController
 public class HrApiController {
-	private final HrService hrService ;
+	private final HrService hrService ; 
 	
 	@GetMapping("/api/v1/hrfixed/{id}")
     public HrFixedDto findById(@PathVariable Long id){		 
