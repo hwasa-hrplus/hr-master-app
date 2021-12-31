@@ -16,7 +16,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @NoArgsConstructor
-public class HrFixedinsertDto {
+public class HrFixedDto {
 	private String email;
 	private Long filesId;
 	private Long id;
@@ -27,7 +27,7 @@ public class HrFixedinsertDto {
 	private String residentNum;
 	private int age;
 	private String gender;
-	private String department;
+	private Department department;
 	
 	private StaffLevel stafflevel;
 	private JobCategory jobCategory;

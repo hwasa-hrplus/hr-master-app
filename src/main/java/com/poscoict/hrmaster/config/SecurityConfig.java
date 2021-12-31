@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.poscoict.hrmaster.service.MemberService;
@@ -21,19 +22,19 @@ import lombok.AllArgsConstructor;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private MemberService memberService;
 
-	//비밀번호 암호화를 위한 Bean
+	// 비밀번호 암호화를 위한 Bean
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 
-	//Security 설정 * @param web FilterChainProxy 생성 필터 * @throws Exception
+	// Security 설정 * @param web FilterChainProxy 생성 필터 * @throws Exception
 	@Override
 	public void configure(WebSecurity web) throws Exception { // Spring Security가 인증을 무시할 경로 설정
 		web.ignoring().antMatchers("/css/**", "/img/**", "/js/**", "/lib/**", "/vendor/**");
 	}
 
-	//Security 설정 * @param http HTTP 요청에 대한 보안 구성 * @throws Exception
+	// Security 설정 * @param http HTTP 요청에 대한 보안 구성 * @throws Exception
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
@@ -44,9 +45,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				// ADMIN만 접근 허용
 				.antMatchers("/**").permitAll() // 그외 모든 경로에 대해서는 권한 없이 접근 허용 //
 				.anyRequest().authenticated() // 나머지 요청들은 권한의 종류에 상관 없이 권한이 있어야 접근 가능
-				.and() // 로그인 설정 
-				.formLogin()
-				.loginPage("/user/login") // Custom login form 사용
+				.and()//다른 부분은 무시해주시고 이 부분만 잘 사용 해주시면 됩니다.				
+				.csrf()
+				.ignoringAntMatchers("/api/**") // csrf 토큰 무시함으로써 post, delete, put mapping method 사용가능하게 함
+				.and() // 로그인 설정
+				.formLogin().loginPage("/user/login") // Custom login form 사용
 				.failureUrl("/login-error") // 로그인 실패 시 이동
 				.defaultSuccessUrl("/") // 로그인 성공 시 redirect 이동
 				.and() // 로그아웃 설정

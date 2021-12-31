@@ -71,8 +71,12 @@
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
 	</dependencies>
+	
 
 	<build>
+	<filters>
+	
+	</filters>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
