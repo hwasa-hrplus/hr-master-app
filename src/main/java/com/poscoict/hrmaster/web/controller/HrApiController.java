@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.poscoict.hrmaster.service.HrService;
+import com.poscoict.hrmaster.service.HrBasicService;
+import com.poscoict.hrmaster.service.HrFixedService;
+import com.poscoict.hrmaster.web.dto.HrBasicDto;
 import com.poscoict.hrmaster.web.dto.HrFixedDto;
 
 import lombok.RequiredArgsConstructor;
@@ -17,14 +19,15 @@ import lombok.RequiredArgsConstructor;
 @RestController
 public class HrApiController {
 
-	private final HrService hrService;
+	private final HrFixedService hrFixedService;
+	private final HrBasicService hrBasicService;
 
 	// put method for master
 	@PutMapping("/api/v1/hrfixed/admin/{id}")
 	public Long updateByIdForAdmin(@PathVariable Long id, @RequestBody HrFixedDto hrFixedDto) {
 
 		System.out.println("controller: " + hrFixedDto.getKorName());
-		return hrService.updateByIdForAdmin(id, hrFixedDto);
+		return hrFixedService.updateByIdForAdmin(id, hrFixedDto);
 	}
 
 	// put method for employee
@@ -32,25 +35,35 @@ public class HrApiController {
 	public Long updateByIdForEmployee(@PathVariable Long id, @RequestBody HrFixedDto hrFixedDto) {
 
 		System.out.println("controller: " + hrFixedDto.getKorName());
-		return hrService.updateByIdForEmployee(id, hrFixedDto);
-	}
-
-	@GetMapping("/api/v1/hrfixed/{id}")
-	public HrFixedDto findById(@PathVariable Long id) {
-		return hrService.findById(id); // 정보만 return
+		return hrFixedService.updateByIdForEmployee(id, hrFixedDto);
 	}
 
 	@DeleteMapping("/api/v1/hrfixed/{id}")
 	public Long delete(@PathVariable Long id) {
-		hrService.delete(id);
+		hrFixedService.delete(id);
 		return id;
 	}
-	 
-	// post for admin 
-	 @PostMapping("/api/v1/hrfixed/admin")
-	public Long save(@RequestBody HrFixedDto hrFixedDto){
-		 System.out.println("save here");
-	    return hrService.saveByAdmin(hrFixedDto);
+
+	// post for admin
+	@PostMapping("/api/v1/hrfixed/admin")
+	public Long save(@RequestBody HrFixedDto hrFixedDto) {
+		System.out.println("save here");
+		return hrFixedService.saveByAdmin(hrFixedDto);
 
 	}
+
+	// @경빈
+	// 메서드 이름 변경: findById -> hrFixedById
+	@GetMapping("/api/v1/hrfixed/{id}")
+	public HrFixedDto hrFixedfindById(@PathVariable Long id) {
+		return hrFixedService.findById(id);
+	}
+
+	// @경빈
+	// 인사기본 조회 추가
+	@GetMapping("/api/v1/hrbasic/{id}")
+	public HrBasicDto hrBasicfindById(@PathVariable Long id) {
+		return hrBasicService.findById(id);
+	}
+
 }

@@ -18,9 +18,13 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 public class HrFixedDto {
+
 	private String email;
 	private Files filesId;
 	private Long id;
+	
+	// @경빈
+	// 파일ID 타입 변경: Long -> Files 클래스
 	private String korName;
 	private String engName;
 	private Date startDate;
@@ -35,8 +39,8 @@ public class HrFixedDto {
 	private String password;
 
 	public HrFixedDto(Employee entity) {
-		this.email = entity.getEmail();
 		this.id = entity.getId();
+		this.email = entity.getEmail();
 		this.korName = entity.getKorName();
 		this.engName = entity.getEngName();
 		this.startDate = entity.getStartDate();
@@ -54,8 +58,8 @@ public class HrFixedDto {
 	// post for admin
 	public Employee toEntity() {
 		return Employee.builder().email(email).filesId(filesId).id(id).korName(korName).engName(engName)
-				.startDate(startDate).role(role).residentNum(residentNum).age(age).gender(gender)
-				.department(department).stafflevel(stafflevel).jobCategory(jobCategory)
+				.startDate(startDate).role(role).residentNum(residentNum).age(age).gender(gender).department(department)
+				.stafflevel(stafflevel).jobCategory(jobCategory)
 
 				.password(password).build();
 	}

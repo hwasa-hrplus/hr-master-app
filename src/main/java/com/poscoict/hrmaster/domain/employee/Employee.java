@@ -70,10 +70,13 @@ public class Employee implements UserDetails {
 	@ManyToOne
 	@JoinColumn(name = "job_category_code")
 	private JobCategory jobCategory;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "project_code")
 	private Project project;
+
+	// @경빈
+	// bossId 데이터 타입 String에서 Long으로 변경
 
 	@Column(name = "boss_id")
 	private Long bossId;
@@ -116,20 +119,13 @@ public class Employee implements UserDetails {
 	@Column(name = "address")
 	private String address;
 
-
-
 	@Builder
-<<<<<<< HEAD
+
 	public Employee(Long id, String email, String password, String role, Files filesId, Department department,
-			StaffLevel stafflevel, JobCategory jobCategory, String bossId, Employee employeeId,
-			WorkPlace workPlace, String korName, String engName, Date startDate, String residentNum, int age,
-			String gender, boolean workType, String phone, Date birthDate, String address, Project project) {
-=======
-	public Employee(Long id, String email, String password, String role, Files filesId, Department departmentCode,
-			StaffLevel stafflevelCode, JobCategory jobCategoryCode, Long bossId, Employee employeeId,
-			WorkPlace workPlaceCode, String korName, String engName, Date startDate, String residentNum, int age,
-			String gender, boolean workType, String phone, Date birthDate, String address, String projectCode) {
->>>>>>> development_sh
+			StaffLevel stafflevel, JobCategory jobCategory, Long bossId, Employee employeeId, WorkPlace workPlace,
+			String korName, String engName, Date startDate, String residentNum, int age, String gender,
+			boolean workType, String phone, Date birthDate, String address, String projectCode) {
+
 		super();
 		this.id = id;
 		this.email = email;
@@ -194,8 +190,7 @@ public class Employee implements UserDetails {
 		return true;
 	}
 
-	
-	//update logic
+	// update logic
 	public void updateForAdmin(Map<String, Object> employeeInfo) {
 		this.id = (Long) employeeInfo.get("id");
 		this.email = (String) employeeInfo.get("email");
@@ -217,7 +212,7 @@ public class Employee implements UserDetails {
 		this.korName = (String) employeeInfo.get("korName");
 		this.engName = (String) employeeInfo.get("engName");
 		this.filesId = (Files) employeeInfo.get("filesId");
-		
+
 		System.out.println("entity: " + (String) employeeInfo.get("engName"));
 
 	}
