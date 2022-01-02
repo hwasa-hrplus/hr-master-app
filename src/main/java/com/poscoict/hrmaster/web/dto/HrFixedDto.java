@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.poscoict.hrmaster.domain.department.Department;
 import com.poscoict.hrmaster.domain.employee.Employee;
+import com.poscoict.hrmaster.domain.files.Files;
 import com.poscoict.hrmaster.domain.jobcategory.JobCategory;
 import com.poscoict.hrmaster.domain.stafflevel.StaffLevel;
 
@@ -18,9 +19,14 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 public class HrFixedDto {
-	private String email;
-	private Long filesId;
+	// @경빈
+	// 구글 엑셀시트 순서에 맞게 코드 순서만 변경
 	private Long id;
+	private String email;
+	
+	// @경빈
+	// 파일ID 타입 변경: Long -> Files 클래스
+	private Files filesId;
 	private String korName;
 	private String engName;
 	private Date startDate;
@@ -33,8 +39,8 @@ public class HrFixedDto {
 	private JobCategory jobCategoryCode;
 
 	public HrFixedDto(Employee entity) {
-		this.email = entity.getEmail();
 		this.id = entity.getId();
+		this.email = entity.getEmail();
 		this.korName = entity.getKorName();
 		this.engName = entity.getEngName();
 		this.startDate = entity.getStartDate();
