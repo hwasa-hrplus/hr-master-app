@@ -78,4 +78,14 @@ public class HrService {
         //postsById 메소드를 활용하면 id로 삭제할 수도 있음
         employeeRepository.delete(employee);
     }
+	
+	
+	// post for admin 
+    @Transactional
+    public Long saveByAdmin(HrFixedDto hrFixedDto){
+
+        return employeeRepository.save(hrFixedDto.toEntity()).getId();
+    }
+	
+	
 }

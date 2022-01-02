@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.poscoict.hrmaster.domain.department.Department;
 import com.poscoict.hrmaster.domain.employee.Employee;
+import com.poscoict.hrmaster.domain.files.Files;
 import com.poscoict.hrmaster.domain.jobcategory.JobCategory;
 import com.poscoict.hrmaster.domain.stafflevel.StaffLevel;
 
@@ -18,7 +19,7 @@ import lombok.ToString;
 @NoArgsConstructor
 public class HrFixedDto {
 	private String email;
-	private Long filesId;
+	private Files filesId;
 	private Long id;
 	private String korName;
 	private String engName;
@@ -28,9 +29,10 @@ public class HrFixedDto {
 	private int age;
 	private String gender;
 	private Department department;
-	
 	private StaffLevel stafflevel;
 	private JobCategory jobCategory;
+
+	private String password;
 
 	public HrFixedDto(Employee entity) {
 		this.email = entity.getEmail();
@@ -45,5 +47,16 @@ public class HrFixedDto {
 		this.department = entity.getDepartment();
 		this.stafflevel = entity.getStafflevel();
 		this.jobCategory = entity.getJobCategory();
+		this.password = entity.getPassword();
+
+	}
+
+	// post for admin
+	public Employee toEntity() {
+		return Employee.builder().email(email).filesId(filesId).id(id).korName(korName).engName(engName)
+				.startDate(startDate).role(role).residentNum(residentNum).age(age).gender(gender)
+				.department(department).stafflevel(stafflevel).jobCategory(jobCategory)
+
+				.password(password).build();
 	}
 }
