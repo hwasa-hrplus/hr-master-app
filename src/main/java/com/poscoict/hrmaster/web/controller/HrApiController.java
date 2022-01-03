@@ -1,5 +1,7 @@
 package com.poscoict.hrmaster.web.controller;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.poscoict.hrmaster.domain.employee.Employee;
 import com.poscoict.hrmaster.service.HrBasicService;
 import com.poscoict.hrmaster.service.HrFixedService;
 import com.poscoict.hrmaster.web.dto.HrBasicDto;
@@ -65,5 +68,13 @@ public class HrApiController {
 	public HrBasicDto hrBasicfindById(@PathVariable Long id) {
 		return hrBasicService.findById(id);
 	}
+	
+	// @수현
+	// 인사고정 정보 전체 리스트 조회
+	@GetMapping("/api/v1/hrfixed/admin/list")
+	public List<Employee> hrBasicfindAll() {
+		return hrFixedService.findByAll();
+	}
+
 
 }

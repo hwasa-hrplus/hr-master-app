@@ -1,6 +1,7 @@
 package com.poscoict.hrmaster.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.transaction.Transactional;
@@ -82,7 +83,7 @@ public class HrFixedService {
         employeeRepository.delete(employee);
     }
 	
-	
+	//@수현
 	// post for admin 
     @Transactional
     public Long saveByAdmin(HrFixedDto hrFixedDto){
@@ -90,5 +91,13 @@ public class HrFixedService {
         return employeeRepository.save(hrFixedDto.toEntity()).getId();
     }
 	
+	// @수현
+	// 인사고정 정보 전체 리스트 조회
+	public List<Employee> findByAll() {
+		List<Employee> employee_list= employeeRepository.findAll();
+				//.orElseThrow(() -> new IllegalArgumentException("해당 정보가 없습니다. id=" + id));
+
+		return employee_list;
+	}
 	
 }
