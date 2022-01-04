@@ -1,10 +1,16 @@
 package com.poscoict.hrmaster.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
 import com.poscoict.hrmaster.domain.employee.Employee;
 import com.poscoict.hrmaster.domain.employee.EmployeeRepository;
 import com.poscoict.hrmaster.web.dto.HrBasicDto;
+import com.poscoict.hrmaster.web.dto.HrFixedDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,4 +28,21 @@ public class HrBasicService {
       
         return new HrBasicDto(entity);
     }
+	
+	//@수현
+	// put method for employee(basic)
+	@Transactional
+	public Long updateByIdForEmployee(Long id, HrBasicDto hrBasicDto) {
+		Employee entity = employeeRepository.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("해당 사용자 업데이트 정보가 없습니다.(for employee) id=" + id));
+		
+
+		Map<String, Object> employeeInfo = new HashMap<String, Object>();
+		employeeInfo.put("phone", hrBasicDto.getPhone());
+		employeeInfo.put("address", hrBasicDto.getAddress());
+		employeeInfo.put("project", hrBasicDto.getProject());
+		
+		entity.updateForBasicEmployee(employeeInfo);
+		return id;
+	}
 }

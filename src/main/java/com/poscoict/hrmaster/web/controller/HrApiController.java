@@ -75,6 +75,13 @@ public class HrApiController {
 	public List<Employee> hrBasicfindAll() {
 		return hrFixedService.findByAll();
 	}
+	
+	//@수현
+	// put method for employee(basic)
+	@PutMapping("/api/v1/hrbasic/employee/{id}")
+	public Long updateByIdForBasicEmployee(@PathVariable Long id, @RequestBody HrBasicDto hrBasicDto) {
+		return hrBasicService.updateByIdForEmployee(id, hrBasicDto);
+	}
 
 
 }
