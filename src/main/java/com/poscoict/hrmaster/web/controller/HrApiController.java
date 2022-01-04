@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.poscoict.hrmaster.domain.employee.Employee;
+import com.poscoict.hrmaster.service.HrAdminService;
 import com.poscoict.hrmaster.service.HrBasicService;
 import com.poscoict.hrmaster.service.HrFixedService;
 import com.poscoict.hrmaster.web.dto.HrBasicDto;
@@ -24,6 +25,7 @@ public class HrApiController {
 
 	private final HrFixedService hrFixedService;
 	private final HrBasicService hrBasicService;
+	private final HrAdminService hrAdminService;
 
 	// put method for master
 	@PutMapping("/api/v1/hrfixed/admin/{id}")
@@ -74,6 +76,13 @@ public class HrApiController {
 	@GetMapping("/api/v1/hrfixed/admin/list")
 	public List<Employee> hrBasicfindAll() {
 		return hrFixedService.findByAll();
+	}
+	
+	// @지수
+	// 어드민 사원디테일 조회
+	@GetMapping("/api/v1/hradmin/employee/detail/{id}")
+	public List<Employee> hrAdminfindDetail(@PathVariable Long id) {
+		return hrAdminService.findbyIdForDetail(id);
 	}
 
 
