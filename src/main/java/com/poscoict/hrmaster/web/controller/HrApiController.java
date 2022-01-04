@@ -72,16 +72,16 @@ public class HrApiController {
 	}
 	
 	// @수현
-	// 인사고정 정보 전체 리스트 조회
-	@GetMapping("/api/v1/hrfixed/admin/list")
+	// 회원 전체 리스트 조회
+	@GetMapping("/api/v1/hradmin/admin/list")
 	public List<Employee> hrBasicfindAll() {
-		return hrFixedService.findByAll();
+		return hrAdminService.findByAll();
 	}
 	
 
 	// @지수
 	// 어드민 사원디테일 조회
-	@GetMapping("/api/v1/hradmin/employee/detail/{id}")
+	@GetMapping("/api/v1/hradmin/admin/list/{id}")
 	public List<Employee> hrAdminfindDetail(@PathVariable Long id) {
 		return hrAdminService.findbyIdForDetail(id);
 	}

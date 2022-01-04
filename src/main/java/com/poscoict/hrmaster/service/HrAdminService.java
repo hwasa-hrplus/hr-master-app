@@ -25,5 +25,12 @@ public class HrAdminService {
 
 		return employeeList;
 	}
+	
+	// @수현
+	// 사원 전체 리스트 조회
+	public List<Employee> findByAll() {
+		List<Employee> employeeList= employeeRepository.findAll();
+		return employeeList;
+	}
 
 }
