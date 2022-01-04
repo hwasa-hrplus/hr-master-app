@@ -78,11 +78,20 @@ public class HrApiController {
 		return hrFixedService.findByAll();
 	}
 	
+
 	// @지수
 	// 어드민 사원디테일 조회
 	@GetMapping("/api/v1/hradmin/employee/detail/{id}")
 	public List<Employee> hrAdminfindDetail(@PathVariable Long id) {
 		return hrAdminService.findbyIdForDetail(id);
+	}
+
+	//@수현
+	// put method for employee(basic)
+	@PutMapping("/api/v1/hrbasic/employee/{id}")
+	public Long updateByIdForBasicEmployee(@PathVariable Long id, @RequestBody HrBasicDto hrBasicDto) {
+		return hrBasicService.updateByIdForEmployee(id, hrBasicDto);
+
 	}
 
 

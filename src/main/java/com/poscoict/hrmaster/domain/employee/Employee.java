@@ -124,7 +124,7 @@ public class Employee implements UserDetails {
 	public Employee(Long id, String email, String password, String role, Files filesId, Department department,
 			StaffLevel stafflevel, JobCategory jobCategory, Long bossId, Employee employeeId, WorkPlace workPlace,
 			String korName, String engName, Date startDate, String residentNum, int age, String gender,
-			boolean workType, String phone, Date birthDate, String address, String projectCode) {
+			boolean workType, String phone, Date birthDate, String address, Project project) {
 
 		super();
 		this.id = id;
@@ -214,6 +214,15 @@ public class Employee implements UserDetails {
 		this.filesId = (Files) employeeInfo.get("filesId");
 
 		System.out.println("entity: " + (String) employeeInfo.get("engName"));
+
+	}
+	
+	//@수현
+	// put method for employee(basic)
+	public void updateForBasicEmployee(Map<String, Object> employeeInfo) {
+		this.phone = (String) employeeInfo.get("phone");
+		this.address = (String) employeeInfo.get("address");
+		this.project = (Project) employeeInfo.get("project");
 
 	}
 
