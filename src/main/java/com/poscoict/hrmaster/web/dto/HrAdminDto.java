@@ -3,11 +3,14 @@ package com.poscoict.hrmaster.web.dto;
 import java.util.Date;
 
 import com.poscoict.hrmaster.domain.department.Department;
+//@경빈
+// 불필요한 domain 데이터 import 삭제
 import com.poscoict.hrmaster.domain.employee.Employee;
 import com.poscoict.hrmaster.domain.files.Files;
 import com.poscoict.hrmaster.domain.jobcategory.JobCategory;
+import com.poscoict.hrmaster.domain.project.Project;
 import com.poscoict.hrmaster.domain.stafflevel.StaffLevel;
-
+import com.poscoict.hrmaster.domain.workplace.WorkPlace;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,14 +20,14 @@ import lombok.ToString;
 @Setter
 @ToString
 @NoArgsConstructor
-public class HrFixedDto {
+
+// @지수
+public class HrAdminDto {
 
 	private String email;
 	private Files filesId;
 	private Long id;
-	
-	// @경빈
-	// 파일ID 타입 변경: Long -> Files 클래스
+	private String password;
 	private String korName;
 	private String engName;
 	private Date startDate;
@@ -35,9 +38,15 @@ public class HrFixedDto {
 	private Department department;
 	private StaffLevel stafflevel;
 	private JobCategory jobCategory;
-	private String password;
+	private Long bossId;
+	private boolean workType;
+	private String phone;
+	private Date birthDate;
+	private String address;
+	private Project project;
+	private WorkPlace workPlace;
 
-	public HrFixedDto(Employee entity) {
+	public HrAdminDto(Employee entity) {
 		this.id = entity.getId();
 		this.email = entity.getEmail();
 		this.korName = entity.getKorName();
@@ -51,15 +60,20 @@ public class HrFixedDto {
 		this.stafflevel = entity.getStafflevel();
 		this.jobCategory = entity.getJobCategory();
 		this.password = entity.getPassword();
-
+		this.bossId = entity.getBossId();
+		this.workType = entity.isWorkType();
+		this.phone = entity.getPhone();
+		this.birthDate = entity.getBirthDate();
+		this.address = entity.getAddress();
+		this.project = entity.getProject();
+		this.workPlace = entity.getWorkPlace();
 	}
 
 	// post for admin
 	public Employee toEntity() {
 		return Employee.builder().email(email).filesId(filesId).id(id).korName(korName).engName(engName)
 				.startDate(startDate).role(role).residentNum(residentNum).age(age).gender(gender).department(department)
-				.stafflevel(stafflevel).jobCategory(jobCategory)
-
-				.password(password).build();
+				.stafflevel(stafflevel).jobCategory(jobCategory).password(password).bossId(bossId).workType(workType)
+				.phone(phone).birthDate(birthDate).address(address).project(project).workPlace(workPlace).build();
 	}
 }
