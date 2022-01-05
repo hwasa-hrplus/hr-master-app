@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-@Table(name = "workplace")
+@Table(name = "Project")
 public class Project {
 	@Id
 	@Column(name = "code", nullable = false)	
