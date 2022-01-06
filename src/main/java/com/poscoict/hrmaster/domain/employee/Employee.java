@@ -26,7 +26,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.poscoict.hrmaster.domain.department.Department;
 import com.poscoict.hrmaster.domain.files.Files;
 import com.poscoict.hrmaster.domain.jobcategory.JobCategory;
-import com.poscoict.hrmaster.domain.project.Project;
 import com.poscoict.hrmaster.domain.stafflevel.StaffLevel;
 import com.poscoict.hrmaster.domain.workplace.WorkPlace;
 
@@ -73,9 +72,7 @@ public class Employee implements UserDetails {
 	@JoinColumn(name = "job_category_code")
 	private JobCategory jobCategory;
 
-	@ManyToOne
-	@JoinColumn(name = "project_code")
-	private Project project;
+
 
 	// @경빈
 	// bossId 데이터 타입 String에서 Long으로 변경
@@ -131,7 +128,7 @@ public class Employee implements UserDetails {
 	public Employee(Long id, String email, String password, String role, Files filesId, Department department,
 			StaffLevel stafflevel, JobCategory jobCategory, Long bossId, Employee employeeId, WorkPlace workPlace,
 			String korName, String engName, Date startDate, String residentNum, int age, String gender,
-			boolean workType, String phone, Date birthDate, String address, Project project , String detail_address
+			boolean workType, String phone, Date birthDate, String address,  String detail_address
 			, String address_code) {
 
 		super();
@@ -156,7 +153,6 @@ public class Employee implements UserDetails {
 		this.phone = phone;
 		this.birthDate = birthDate;
 		this.address = address;
-		this.project = project;
 		this.detail_address = detail_address;
 		this.address_code = address_code;
 	}
@@ -234,7 +230,6 @@ public class Employee implements UserDetails {
 		this.address = (String) employeeInfo.get("address");
 		this.detail_address = (String) employeeInfo.get("detail_address");
 		this.address_code = (String) employeeInfo.get("address_code");
-		this.project = (Project) employeeInfo.get("project");
 
 	}
 

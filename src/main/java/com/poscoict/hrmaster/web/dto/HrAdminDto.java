@@ -8,7 +8,6 @@ import com.poscoict.hrmaster.domain.department.Department;
 import com.poscoict.hrmaster.domain.employee.Employee;
 import com.poscoict.hrmaster.domain.files.Files;
 import com.poscoict.hrmaster.domain.jobcategory.JobCategory;
-import com.poscoict.hrmaster.domain.project.Project;
 import com.poscoict.hrmaster.domain.stafflevel.StaffLevel;
 import com.poscoict.hrmaster.domain.workplace.WorkPlace;
 import lombok.Getter;
@@ -43,7 +42,6 @@ public class HrAdminDto {
 	private String phone;
 	private Date birthDate;
 	private String address;
-	private Project project;
 	private WorkPlace workPlace;
 
 	public HrAdminDto(Employee entity) {
@@ -65,7 +63,6 @@ public class HrAdminDto {
 		this.phone = entity.getPhone();
 		this.birthDate = entity.getBirthDate();
 		this.address = entity.getAddress();
-		this.project = entity.getProject();
 		this.workPlace = entity.getWorkPlace();
 	}
 
@@ -74,6 +71,6 @@ public class HrAdminDto {
 		return Employee.builder().email(email).filesId(filesId).id(id).korName(korName).engName(engName)
 				.startDate(startDate).role(role).residentNum(residentNum).age(age).gender(gender).department(department)
 				.stafflevel(stafflevel).jobCategory(jobCategory).password(password).bossId(bossId).workType(workType)
-				.phone(phone).birthDate(birthDate).address(address).project(project).workPlace(workPlace).build();
+				.phone(phone).birthDate(birthDate).address(address).workPlace(workPlace).build();
 	}
 }

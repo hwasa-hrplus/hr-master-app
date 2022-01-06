@@ -5,7 +5,6 @@ import java.util.Date;
 //@경빈
 // 불필요한 domain 데이터 import 삭제
 import com.poscoict.hrmaster.domain.employee.Employee;
-import com.poscoict.hrmaster.domain.project.Project;
 import com.poscoict.hrmaster.domain.workplace.WorkPlace;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,7 +25,6 @@ public class HrBasicDto {
 	private String address;
 	private String detail_address;
 	private String address_code;;
-	private Project project;
 	private WorkPlace workPlace;
 	
 
@@ -37,7 +35,6 @@ public class HrBasicDto {
 		this.birthDate = entity.getBirthDate();
 		this.address = entity.getAddress();
 		this.detail_address = entity.getDetail_address();
-		this.project = entity.getProject();
 		this.workPlace = entity.getWorkPlace();
 	}
 }

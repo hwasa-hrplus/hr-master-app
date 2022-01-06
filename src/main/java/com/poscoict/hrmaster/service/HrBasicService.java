@@ -41,7 +41,6 @@ public class HrBasicService {
 		employeeInfo.put("phone", hrBasicDto.getPhone());
 		employeeInfo.put("address", hrBasicDto.getAddress());
 		employeeInfo.put("detail_address", hrBasicDto.getDetail_address());
-		employeeInfo.put("project", hrBasicDto.getProject());
 		
 		entity.updateForBasicEmployee(employeeInfo);
 		return id;
