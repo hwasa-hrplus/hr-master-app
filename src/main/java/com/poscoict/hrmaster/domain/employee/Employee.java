@@ -21,6 +21,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.poscoict.hrmaster.domain.department.Department;
 import com.poscoict.hrmaster.domain.files.Files;
 import com.poscoict.hrmaster.domain.jobcategory.JobCategory;
@@ -77,11 +79,11 @@ public class Employee implements UserDetails {
 
 	// @경빈
 	// bossId 데이터 타입 String에서 Long으로 변경
-
 	@Column(name = "boss_id")
 	private Long bossId;
 
 	@ManyToOne
+	@JsonBackReference
 	@JoinColumn(name = "boss_id", referencedColumnName = "boss_id", insertable = false, updatable = false)
 	private Employee employeeId;
 
@@ -118,17 +120,23 @@ public class Employee implements UserDetails {
 
 	@Column(name = "address")
 	private String address;
+	
+	@Column(name = "detail_address")
+	private String detail_address;
+	
+	@Column(name = "address_code")
+	private String address_code;
 
 	@Builder
-
 	public Employee(Long id, String email, String password, String role, Files filesId, Department department,
 			StaffLevel stafflevel, JobCategory jobCategory, Long bossId, Employee employeeId, WorkPlace workPlace,
 			String korName, String engName, Date startDate, String residentNum, int age, String gender,
-			boolean workType, String phone, Date birthDate, String address, Project project) {
+			boolean workType, String phone, Date birthDate, String address, Project project , String detail_address
+			, String address_code) {
 
 		super();
 		this.id = id;
-		this.email = email;
+		this.email = email;	
 		this.password = password;
 		this.role = role;
 		this.filesId = filesId;
@@ -149,6 +157,8 @@ public class Employee implements UserDetails {
 		this.birthDate = birthDate;
 		this.address = address;
 		this.project = project;
+		this.detail_address = detail_address;
+		this.address_code = address_code;
 	}
 
 	@Override
@@ -222,6 +232,8 @@ public class Employee implements UserDetails {
 	public void updateForBasicEmployee(Map<String, Object> employeeInfo) {
 		this.phone = (String) employeeInfo.get("phone");
 		this.address = (String) employeeInfo.get("address");
+		this.detail_address = (String) employeeInfo.get("detail_address");
+		this.address_code = (String) employeeInfo.get("address_code");
 		this.project = (Project) employeeInfo.get("project");
 
 	}
