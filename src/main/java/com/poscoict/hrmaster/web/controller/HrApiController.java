@@ -14,6 +14,7 @@ import com.poscoict.hrmaster.domain.employee.Employee;
 import com.poscoict.hrmaster.service.HrAdminService;
 import com.poscoict.hrmaster.service.HrBasicService;
 import com.poscoict.hrmaster.service.HrFixedService;
+import com.poscoict.hrmaster.web.dto.HrAdminDto;
 import com.poscoict.hrmaster.web.dto.HrBasicDto;
 import com.poscoict.hrmaster.web.dto.HrFixedDto;
 
@@ -27,6 +28,7 @@ public class HrApiController {
 	private final HrBasicService hrBasicService;
 	private final HrAdminService hrAdminService;
 
+	// @지수
 	// put method for master
 	@PutMapping("/api/v1/hrfixed/admin/{id}")
 	public Long updateByIdForAdmin(@PathVariable Long id, @RequestBody HrFixedDto hrFixedDto) {
@@ -35,6 +37,7 @@ public class HrApiController {
 		return hrFixedService.updateByIdForAdmin(id, hrFixedDto);
 	}
 
+	// @지수
 	// put method for employee
 	@PutMapping("/api/v1/hrfixed/employee/{id}")
 	public Long updateByIdForEmployee(@PathVariable Long id, @RequestBody HrFixedDto hrFixedDto) {
@@ -43,18 +46,12 @@ public class HrApiController {
 		return hrFixedService.updateByIdForEmployee(id, hrFixedDto);
 	}
 
+	// @윤욱
+	// delete method for employee
 	@DeleteMapping("/api/v1/hrfixed/{id}")
 	public Long delete(@PathVariable Long id) {
 		hrFixedService.delete(id);
 		return id;
-	}
-
-	// post for admin
-	@PostMapping("/api/v1/hrfixed/admin")
-	public Long save(@RequestBody HrFixedDto hrFixedDto) {
-		System.out.println("save here");
-		return hrFixedService.saveByAdmin(hrFixedDto);
-
 	}
 
 	// @경빈
@@ -70,14 +67,21 @@ public class HrApiController {
 	public HrBasicDto hrBasicfindById(@PathVariable Long id) {
 		return hrBasicService.findById(id);
 	}
-	
+
+	// @수현
+	// put method for employee(basic)
+	@PutMapping("/api/v1/hrbasic/employee/{id}")
+	public Long updateByIdForBasicEmployee(@PathVariable Long id, @RequestBody HrBasicDto hrBasicDto) {
+		return hrBasicService.updateByIdForEmployee(id, hrBasicDto);
+
+	}
+
 	// @수현
 	// 회원 전체 리스트 조회
 	@GetMapping("/api/v1/hradmin/admin/list")
 	public List<Employee> hrBasicfindAll() {
 		return hrAdminService.findByAll();
 	}
-	
 
 	// @지수
 	// 어드민 사원디테일 조회
@@ -86,13 +90,11 @@ public class HrApiController {
 		return hrAdminService.findbyIdForDetail(id);
 	}
 
-	//@수현
-	// put method for employee(basic)
-	@PutMapping("/api/v1/hrbasic/employee/{id}")
-	public Long updateByIdForBasicEmployee(@PathVariable Long id, @RequestBody HrBasicDto hrBasicDto) {
-		return hrBasicService.updateByIdForEmployee(id, hrBasicDto);
-
+	// @지수
+	// 어드민 사원디테일 추가
+	@PostMapping("/api/v1/hradmin/admin")
+	public Long save(@RequestBody HrAdminDto hrAdminDto) {
+		return hrAdminService.saveByAdmin(hrAdminDto);
 	}
-
 
 }

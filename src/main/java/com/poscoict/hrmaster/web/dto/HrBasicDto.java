@@ -24,8 +24,11 @@ public class HrBasicDto {
 	private String phone;
 	private Date birthDate;
 	private String address;
+	private String detail_address;
+	private String address_code;;
 	private Project project;
 	private WorkPlace workPlace;
+	
 
 	public HrBasicDto(Employee entity) {
 		this.bossId = entity.getBossId();
@@ -33,6 +36,7 @@ public class HrBasicDto {
 		this.phone = entity.getPhone();
 		this.birthDate = entity.getBirthDate();
 		this.address = entity.getAddress();
+		this.detail_address = entity.getDetail_address();
 		this.project = entity.getProject();
 		this.workPlace = entity.getWorkPlace();
 	}
