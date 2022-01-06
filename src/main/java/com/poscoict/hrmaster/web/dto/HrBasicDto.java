@@ -35,6 +35,7 @@ public class HrBasicDto {
 		this.birthDate = entity.getBirthDate();
 		this.address = entity.getAddress();
 		this.detail_address = entity.getDetail_address();
+		this.address_code = entity.getAddress_code();
 		this.workPlace = entity.getWorkPlace();
 	}
 }
