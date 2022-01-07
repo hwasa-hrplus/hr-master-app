@@ -2,15 +2,10 @@ package com.poscoict.hrmaster.domain.files;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-
-import com.poscoict.hrmaster.domain.employee.Employee;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -27,21 +22,21 @@ public class Files {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 		
+	@Column(name = "uuid")
+	private String uuid;
+	
 	@Column(name = "name")
 	private String name;
-
-	@Column(name = "ori_name")
-	private String oriName;
 
 	@Column(name = "path")
 	private String path;
 
 	@Builder
-	public Files(long id, String name, String oriName, String path) {
+	public Files(long id, String uuid, String name, String path) {
 		super();
 		this.id = id;
+		this.uuid = uuid;
 		this.name = name;
-		this.oriName = oriName;
 		this.path = path;
 
 	}

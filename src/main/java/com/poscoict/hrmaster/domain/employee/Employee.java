@@ -22,7 +22,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.poscoict.hrmaster.domain.department.Department;
 import com.poscoict.hrmaster.domain.files.Files;
 import com.poscoict.hrmaster.domain.jobcategory.JobCategory;
@@ -71,8 +70,6 @@ public class Employee implements UserDetails {
 	@ManyToOne
 	@JoinColumn(name = "job_category_code")
 	private JobCategory jobCategory;
-
-
 
 	// @경빈
 	// bossId 데이터 타입 String에서 Long으로 변경
