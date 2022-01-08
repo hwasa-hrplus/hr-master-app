@@ -127,25 +127,29 @@ public class HrApiController {
 		hrAdminService.saveImageToServer(hrFileDto, img);
 	}
 
-//	// @지수
-//	// 사진 가져오기
-//	@CrossOrigin("*")
-//	@GetMapping("/api/v1/hradmin/image")
-//	public ResponseEntity<byte[]> getImage(String fileName) {
-//		File file = new File("C:\\Users\\OWNER\\Pictures\\" + fileName);
-//		ResponseEntity<byte[]> result = null;
-//
-//		try {
-//
-//			HttpHeaders header = new HttpHeaders();
-//			header.add("Content-type", Files.probeContentType(file.toPath()));
-//			result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
-//
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		return result;
-//
-//	}
+	// @지수
+	// 사진 가져오기
+	@CrossOrigin("*")
+	@GetMapping("/api/v1/hradmin/image/{id}")
+	public ResponseEntity<byte[]> getImage(@PathVariable Long id){
+		Employee employeeList = hrAdminService.getImageToWeb(id);
+		String filePath = employeeList.getFilesId().getPath();
+		String name = employeeList.getFilesId().getName();
+		
+		File file = new File("C:\\upload\\"+filePath+"\\"+name);
+		ResponseEntity<byte[]> result = null;
+		
+		try {
+
+			HttpHeaders header = new HttpHeaders();
+			header.add("Content-type", Files.probeContentType(file.toPath()));
+			result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return result;
+
+	}
 
 }

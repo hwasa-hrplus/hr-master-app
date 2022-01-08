@@ -119,4 +119,12 @@ public class HrAdminService {
 
 	}
 
+	public Employee getImageToWeb(Long id) {
+		Employee entity = employeeRepository.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("해당 정보가 없습니다. id=" + id));
+
+		return entity;
+		
+	}
+
 }
