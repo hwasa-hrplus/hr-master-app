@@ -6,9 +6,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import javax.imageio.ImageIO;
@@ -18,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.poscoict.hrmaster.domain.department.Department;
+import com.poscoict.hrmaster.domain.department.DepartmentRepository;
 import com.poscoict.hrmaster.domain.employee.Employee;
 import com.poscoict.hrmaster.domain.employee.EmployeeRepository;
 import com.poscoict.hrmaster.domain.files.FilesRepository;
@@ -25,8 +25,6 @@ import com.poscoict.hrmaster.domain.stafflevel.StaffLevel;
 import com.poscoict.hrmaster.domain.stafflevel.StaffLevelRepository;
 import com.poscoict.hrmaster.web.dto.HrAdminDto;
 import com.poscoict.hrmaster.web.dto.HrFileDto;
-import com.poscoict.hrmaster.web.dto.HrFixedDto;
-import com.poscoict.hrmaster.web.dto.HrStaffLevelDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -37,6 +35,7 @@ public class HrAdminService {
 	private final EmployeeRepository employeeRepository;
 	private final FilesRepository fileRepository;
 	private final StaffLevelRepository stafflevelRepository;
+	private final DepartmentRepository departmentRepository;
 
 	// @지수
 	// 어드민 아이디로 사원 조회
@@ -137,6 +136,11 @@ public class HrAdminService {
 		List<StaffLevel> staffLevel = stafflevelRepository.findAll();
 		return staffLevel;
 
+	}
+
+	public List<Department> findByAllDepartment() {
+		List<Department> department = departmentRepository.findAll();
+		return department;
 	}
 
 }

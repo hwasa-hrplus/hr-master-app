@@ -63,7 +63,7 @@ public class Employee implements UserDetails {
 	@JoinColumn(name = "department_code")
 	private Department department;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "staff_level_code")
 	private StaffLevel stafflevel;
 

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.poscoict.hrmaster.domain.department.Department;
 import com.poscoict.hrmaster.domain.employee.Employee;
 import com.poscoict.hrmaster.domain.stafflevel.StaffLevel;
 import com.poscoict.hrmaster.service.HrAdminService;
@@ -152,6 +153,14 @@ public class HrApiController {
 	public List<StaffLevel> hrAdminfindStaffLevel() {
 		
 		return hrAdminService.findByAllStafflevel();
+	}
+	
+	//@지수
+	//staff_level 테이블 가져오기
+	@GetMapping("/hradmin/admin/department")
+	public List<Department> hrAdminfindDepartment() {
+		
+		return hrAdminService.findByAllDepartment();
 	}
 
 }
