@@ -112,7 +112,7 @@ public class HrApiController {
 	// @지수
 	// 사진 업로드
 	@CrossOrigin("*")
-	@PostMapping("/api/v1/hradmin/image" )
+	@PostMapping("/hradmin/image" )
 	public void saveImageToServer(HrFileDto hrFileDto, MultipartFile img) {
 		System.out.println("파일 이름 : " + img.getOriginalFilename());
 		System.out.println("파일 타입 : " + img.getContentType());
@@ -124,7 +124,7 @@ public class HrApiController {
 	// @지수
 	// 사진 가져오기
 	@CrossOrigin("*")
-	@GetMapping("/api/v1/hradmin/image/{id}")
+	@GetMapping("/hradmin/image/{id}")
 	public ResponseEntity<byte[]> getImage(@PathVariable Long id){
 		Employee employeeList = hrAdminService.getImageToWeb(id);
 		String filePath = employeeList.getFilesId().getPath();
@@ -148,7 +148,7 @@ public class HrApiController {
 	
 	//@지수
 	//staff_level 테이블 가져오기
-	@GetMapping("/api/v1/hradmin/admin/stafflevel")
+	@GetMapping("/hradmin/admin/stafflevel")
 	public List<StaffLevel> hrAdminfindStaffLevel() {
 		
 		return hrAdminService.findByAllStafflevel();
