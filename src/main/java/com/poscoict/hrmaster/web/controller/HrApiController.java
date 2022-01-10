@@ -42,7 +42,7 @@ public class HrApiController {
 
 	// @지수
 	// put method for master
-	@PutMapping("/api/v1/hrfixed/admin/{id}")
+	@PutMapping("/hrfixed/admin/{id}")
 	public Long updateByIdForAdmin(@PathVariable Long id, @RequestBody HrFixedDto hrFixedDto) {
 
 		System.out.println("controller: " + hrFixedDto.getKorName());
@@ -51,7 +51,7 @@ public class HrApiController {
 
 	// @지수
 	// put method for employee
-	@PutMapping("/api/v1/hrfixed/employee/{id}")
+	@PutMapping("/hrfixed/employee/{id}")
 	public Long updateByIdForEmployee(@PathVariable Long id, @RequestBody HrFixedDto hrFixedDto) {
 
 		System.out.println("controller: " + hrFixedDto.getKorName());
@@ -60,7 +60,7 @@ public class HrApiController {
 
 	// @윤욱
 	// delete method for employee
-	@DeleteMapping("/api/v1/hrfixed/{id}")
+	@DeleteMapping("/hrfixed/{id}")
 	public Long delete(@PathVariable Long id) {
 		hrFixedService.delete(id);
 		return id;
@@ -68,21 +68,21 @@ public class HrApiController {
 
 	// @경빈
 	// 메서드 이름 변경: findById -> hrFixedById
-	@GetMapping("/api/v1/hrfixed/{id}")
+	@GetMapping("/hrfixed/{id}")
 	public HrFixedDto hrFixedfindById(@PathVariable Long id) {
 		return hrFixedService.findById(id);
 	}
 
 	// @경빈
 	// 인사기본 조회 추가
-	@GetMapping("/api/v1/hrbasic/{id}")
+	@GetMapping("/hrbasic/{id}")
 	public HrBasicDto hrBasicfindById(@PathVariable Long id) {
 		return hrBasicService.findById(id);
 	}
 
 	// @수현
 	// put method for employee(basic)
-	@PutMapping("/api/v1/hrbasic/employee/{id}")
+	@PutMapping("/hrbasic/employee/{id}")
 	public Long updateByIdForBasicEmployee(@PathVariable Long id, @RequestBody HrBasicDto hrBasicDto) {
 		return hrBasicService.updateByIdForEmployee(id, hrBasicDto);
 
@@ -90,21 +90,21 @@ public class HrApiController {
 
 	// @수현
 	// 회원 전체 리스트 조회
-	@GetMapping("/api/v1/hradmin/admin/list")
+	@GetMapping("/hradmin/admin/list")
 	public List<Employee> hrBasicfindAll() {
 		return hrAdminService.findByAll();
 	}
 
 	// @지수
 	// 어드민 사원디테일 조회
-	@GetMapping("/api/v1/hradmin/admin/list/{id}")
+	@GetMapping("/hradmin/admin/list/{id}")
 	public List<Employee> hrAdminfindDetail(@PathVariable Long id) {
 		return hrAdminService.findbyIdForDetail(id);
 	}
 
 	// @지수
 	// 어드민 사원디테일 추가
-	@PostMapping("/api/v1/hradmin/admin")
+	@PostMapping("/hradmin/admin")
 	public Long save(@RequestBody HrAdminDto hrAdminDto) {
 		return hrAdminService.saveByAdmin(hrAdminDto);
 	}
