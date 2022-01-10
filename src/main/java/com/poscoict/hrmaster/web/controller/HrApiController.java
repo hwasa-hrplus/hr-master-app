@@ -3,18 +3,10 @@ package com.poscoict.hrmaster.web.controller;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.UUID;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-
-import javax.imageio.ImageIO;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -28,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.poscoict.hrmaster.domain.employee.Employee;
+import com.poscoict.hrmaster.domain.stafflevel.StaffLevel;
 import com.poscoict.hrmaster.service.HrAdminService;
 import com.poscoict.hrmaster.service.HrBasicService;
 import com.poscoict.hrmaster.service.HrFixedService;
@@ -35,6 +28,7 @@ import com.poscoict.hrmaster.web.dto.HrAdminDto;
 import com.poscoict.hrmaster.web.dto.HrBasicDto;
 import com.poscoict.hrmaster.web.dto.HrFileDto;
 import com.poscoict.hrmaster.web.dto.HrFixedDto;
+import com.poscoict.hrmaster.web.dto.HrStaffLevelDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -150,6 +144,14 @@ public class HrApiController {
 		}
 		return result;
 
+	}
+	
+	//@지수
+	//staff_level 테이블 가져오기
+	@GetMapping("/api/v1/hradmin/admin/stafflevel")
+	public List<StaffLevel> hrAdminfindStaffLevel() {
+		
+		return hrAdminService.findByAllStafflevel();
 	}
 
 }
