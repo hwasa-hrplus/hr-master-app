@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,6 +33,7 @@ import com.poscoict.hrmaster.web.dto.HrStaffLevelDto;
 
 import lombok.RequiredArgsConstructor;
 
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RequiredArgsConstructor
 @RestController
 public class HrApiController {
@@ -39,19 +41,11 @@ public class HrApiController {
 	private final HrFixedService hrFixedService;
 	private final HrBasicService hrBasicService;
 	private final HrAdminService hrAdminService;
-
-	// @지수
-	// put method for master
-	@PutMapping("/hrfixed/admin/{id}")
-	public Long updateByIdForAdmin(@PathVariable Long id, @RequestBody HrFixedDto hrFixedDto) {
-
-		System.out.println("controller: " + hrFixedDto.getKorName());
-		return hrFixedService.updateByIdForAdmin(id, hrFixedDto);
-	}
-
+	
 	// @지수
 	// put method for employee
-	@PutMapping("/hrfixed/employee/{id}")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@PutMapping("/hrfixed/{id}")
 	public Long updateByIdForEmployee(@PathVariable Long id, @RequestBody HrFixedDto hrFixedDto) {
 
 		System.out.println("controller: " + hrFixedDto.getKorName());
@@ -60,7 +54,8 @@ public class HrApiController {
 
 	// @윤욱
 	// delete method for employee
-	@DeleteMapping("/hrfixed/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
+	@DeleteMapping("/{id}")
 	public Long delete(@PathVariable Long id) {
 		hrFixedService.delete(id);
 		return id;
@@ -68,13 +63,15 @@ public class HrApiController {
 
 	// @경빈
 	// 메서드 이름 변경: findById -> hrFixedById
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	@GetMapping("/hrfixed/{id}")
 	public HrFixedDto hrFixedfindById(@PathVariable Long id) {
-		return hrFixedService.findById(id);
+		return hrFixedService.findById(id);			
 	}
 
 	// @경빈
 	// 인사기본 조회 추가
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	@GetMapping("/hrbasic/{id}")
 	public HrBasicDto hrBasicfindById(@PathVariable Long id) {
 		return hrBasicService.findById(id);
@@ -82,36 +79,39 @@ public class HrApiController {
 
 	// @수현
 	// put method for employee(basic)
-	@PutMapping("/hrbasic/employee/{id}")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@PutMapping("/hrbasic/{id}")
 	public Long updateByIdForBasicEmployee(@PathVariable Long id, @RequestBody HrBasicDto hrBasicDto) {
 		return hrBasicService.updateByIdForEmployee(id, hrBasicDto);
-
 	}
 
 	// @수현
 	// 회원 전체 리스트 조회
-	@GetMapping("/hradmin/admin/list")
+	@PreAuthorize("hasRole('ADMIN')")
+	@GetMapping("/hradmin/list")
 	public List<Employee> hrBasicfindAll() {
 		return hrAdminService.findByAll();
 	}
 
 	// @지수
 	// 어드민 사원디테일 조회
-	@GetMapping("/hradmin/admin/list/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
+	@GetMapping("/hradmin/{id}")
 	public List<Employee> hrAdminfindDetail(@PathVariable Long id) {
 		return hrAdminService.findbyIdForDetail(id);
 	}
 
 	// @지수
 	// 어드민 사원디테일 추가
-	@PostMapping("/hradmin/admin")
+	@PreAuthorize("hasRole('ADMIN')")
+	@PostMapping("/hradmin/")
 	public Long save(@RequestBody HrAdminDto hrAdminDto) {
 		return hrAdminService.saveByAdmin(hrAdminDto);
 	}
 
 	// @지수
 	// 사진 업로드
-	@CrossOrigin("*")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	@PostMapping("/hradmin/image" )
 	public void saveImageToServer(HrFileDto hrFileDto, MultipartFile img) {
 		System.out.println("파일 이름 : " + img.getOriginalFilename());
@@ -123,7 +123,7 @@ public class HrApiController {
 
 	// @지수
 	// 사진 가져오기
-	@CrossOrigin("*")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	@GetMapping("/hradmin/image/{id}")
 	public ResponseEntity<byte[]> getImage(@PathVariable Long id){
 		Employee employeeList = hrAdminService.getImageToWeb(id);
@@ -143,11 +143,11 @@ public class HrApiController {
 			e.printStackTrace();
 		}
 		return result;
-
 	}
 	
 	//@지수
 	//staff_level 테이블 가져오기
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("/hradmin/admin/stafflevel")
 	public List<StaffLevel> hrAdminfindStaffLevel() {
 		
