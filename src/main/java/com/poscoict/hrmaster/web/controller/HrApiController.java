@@ -21,7 +21,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.poscoict.hrmaster.domain.department.Department;
 import com.poscoict.hrmaster.domain.employee.Employee;
+import com.poscoict.hrmaster.domain.jobcategory.JobCategory;
 import com.poscoict.hrmaster.domain.stafflevel.StaffLevel;
+import com.poscoict.hrmaster.domain.workplace.WorkPlace;
 import com.poscoict.hrmaster.service.HrAdminService;
 import com.poscoict.hrmaster.service.HrBasicService;
 import com.poscoict.hrmaster.service.HrFixedService;
@@ -107,6 +109,7 @@ public class HrApiController {
 	// 어드민 사원디테일 추가
 	@PostMapping("/hradmin/admin")
 	public Long save(@RequestBody HrAdminDto hrAdminDto) {
+		System.out.println("controller");
 		return hrAdminService.saveByAdmin(hrAdminDto);
 	}
 
@@ -156,11 +159,27 @@ public class HrApiController {
 	}
 	
 	//@지수
-	//staff_level 테이블 가져오기
+	//department 테이블 가져오기
 	@GetMapping("/hradmin/admin/department")
 	public List<Department> hrAdminfindDepartment() {
 		
 		return hrAdminService.findByAllDepartment();
+	}
+	
+	//@지수
+	//workplace 테이블 가져오기
+	@GetMapping("/hradmin/admin/workPlace")
+	public List<WorkPlace> hrAdminfindWorkPlace() {
+		
+		return hrAdminService.findByAllWorkPlace();
+	}
+
+	//@지수
+	//jobCategory 테이블 가져오기
+	@GetMapping("/hradmin/admin/jobCategory")
+	public List<JobCategory> hrAdminfindJobCategory() {
+		
+		return hrAdminService.findByAllJobCategory();
 	}
 
 }
