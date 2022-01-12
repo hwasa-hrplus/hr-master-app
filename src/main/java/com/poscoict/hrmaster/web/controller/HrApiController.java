@@ -116,27 +116,37 @@ public class HrApiController {
 	// @지수
 	// 사진 업로드
 	@CrossOrigin("*")
-	@PostMapping("/hradmin/image" )
-	public void saveImageToServer(HrFileDto hrFileDto, MultipartFile img) {
+	@PostMapping("/hradmin/image/{id}")
+	public void saveImageToServer(HrFileDto hrFileDto, MultipartFile img, @PathVariable Long id) {
 		System.out.println("파일 이름 : " + img.getOriginalFilename());
 		System.out.println("파일 타입 : " + img.getContentType());
 		System.out.println("파일 크기 : " + img.getSize());
-		
-		hrAdminService.saveImageToServer(hrFileDto, img);
+
+		hrAdminService.saveImageToServer(hrFileDto, img, id);
 	}
 
 	// @지수
-	// 사진 가져오기
+	// 사진 로컬에 가져오기
+	@GetMapping("/hradmin/regist/image/{id}")
+	public Files getImageTolocal(@PathVariable Long id) {
+			hrAdminService.findFileById(id);
+		return null;
+	}
+
+	// @지수
+	// 이미지 화면에 가져오기
 	@CrossOrigin("*")
 	@GetMapping("/hradmin/image/{id}")
-	public ResponseEntity<byte[]> getImage(@PathVariable Long id){
-		Employee employeeList = hrAdminService.getImageToWeb(id);
-		String filePath = employeeList.getFilesId().getPath();
-		String name = employeeList.getFilesId().getName();
-		
-		File file = new File("C:\\upload\\"+filePath+"\\"+name);
+	public ResponseEntity<byte[]> getImage(@PathVariable Long id) {
+
+		HrFileDto fileList = hrAdminService.findFileById(id);
+
+		String filePath = fileList.getPath();
+		String name = fileList.getName();
+		File file = new File("C:\\upload\\" + filePath + "\\" + name);
+
 		ResponseEntity<byte[]> result = null;
-		
+
 		try {
 
 			HttpHeaders header = new HttpHeaders();
@@ -149,37 +159,77 @@ public class HrApiController {
 		return result;
 
 	}
-	
-	//@지수
-	//staff_level 테이블 가져오기
+
+//	// @지수
+//	// 이미지 화면에 가져오기
+//	@CrossOrigin("*")
+//	@GetMapping("/hradmin/image/{id}")
+//	public ResponseEntity<byte[]> getImage(@PathVariable Long id) {
+//		HrFixedDto employeeList = hrFixedService.findById(id);
+//		HrFileDto fileList = hrAdminService.findFileById(id);
+//
+//		if (employeeList.getId() == fileList.getUserId()) {
+//
+//			String filePath = fileList.getPath();
+//			String name = fileList.getName();
+//			File file = new File("C:\\upload\\" + filePath + "\\" + name);
+//
+//			ResponseEntity<byte[]> result = null;
+//
+//			try {
+//
+//				HttpHeaders header = new HttpHeaders();
+//				header.add("Content-type", Files.probeContentType(file.toPath()));
+//				result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
+//
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//			return result;
+//
+//		}
+//		return null;
+//		
+//	}
+
+	// @지수
+	// staff_level 테이블 가져오기
 	@GetMapping("/hradmin/admin/stafflevel")
 	public List<StaffLevel> hrAdminfindStaffLevel() {
-		
+
 		return hrAdminService.findByAllStafflevel();
 	}
-	
-	//@지수
-	//department 테이블 가져오기
+
+	// @지수
+	// department 테이블 가져오기
 	@GetMapping("/hradmin/admin/department")
 	public List<Department> hrAdminfindDepartment() {
-		
+
 		return hrAdminService.findByAllDepartment();
 	}
-	
-	//@지수
-	//workplace 테이블 가져오기
+
+	// @지수
+	// workplace 테이블 가져오기
 	@GetMapping("/hradmin/admin/workPlace")
 	public List<WorkPlace> hrAdminfindWorkPlace() {
-		
+
 		return hrAdminService.findByAllWorkPlace();
 	}
 
-	//@지수
-	//jobCategory 테이블 가져오기
+	// @지수
+	// jobCategory 테이블 가져오기
 	@GetMapping("/hradmin/admin/jobCategory")
 	public List<JobCategory> hrAdminfindJobCategory() {
-		
+
 		return hrAdminService.findByAllJobCategory();
+	}
+
+	// @지수
+	// role이 팀장인 id 가져오기
+	@GetMapping("/hradmin/admin/boss")
+	public List<Employee> hrAdminfindBoss() {
+
+		return hrAdminService.findBoss();
 	}
 
 }

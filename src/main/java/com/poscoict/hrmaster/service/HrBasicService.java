@@ -40,7 +40,7 @@ public class HrBasicService {
 		Map<String, Object> employeeInfo = new HashMap<String, Object>();
 		employeeInfo.put("phone", hrBasicDto.getPhone());
 		employeeInfo.put("address", hrBasicDto.getAddress());
-		employeeInfo.put("detail_address", hrBasicDto.getDetail_address());
+		employeeInfo.put("addressDetail", hrBasicDto.getAddressDetail());
 		
 		entity.updateForBasicEmployee(employeeInfo);
 		return id;

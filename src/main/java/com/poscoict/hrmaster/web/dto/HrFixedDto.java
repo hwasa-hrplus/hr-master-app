@@ -18,7 +18,7 @@ import lombok.ToString;
 public class HrFixedDto {
 
 	private String email;
-	private Files filesId;
+	private String filesId;
 	private Long id;
 	
 	// @경빈
@@ -36,6 +36,7 @@ public class HrFixedDto {
 	private String password;
 
 	public HrFixedDto(Employee entity) {
+		this.filesId = entity.getFilesId();
 		this.id = entity.getId();
 		this.email = entity.getEmail();
 		this.korName = entity.getKorName();
@@ -56,7 +57,7 @@ public class HrFixedDto {
 	public Employee toEntity() {
 		return Employee.builder().email(email).filesId(filesId).id(id).korName(korName).engName(engName)
 				.startDate(startDate).role(role).residentNum(residentNum).age(age).gender(gender).departmentName(departmentName)
-				.staffLevelName(staffLevelName).jobCategoryName(jobCategoryName)
+				.staffLevelName(staffLevelName).jobCategoryName(jobCategoryName).filesId(filesId)
 
 				.password(password).build();
 	}
