@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.imageio.ImageIO;
-import javax.persistence.EntityManager;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -159,5 +158,4 @@ public class HrAdminService {
 		List<JobCategory> jobCategory = jobCategoryRepository.findAll();
 		return jobCategory;
 	}
-
 }

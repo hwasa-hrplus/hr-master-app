@@ -1,7 +1,7 @@
 package com.poscoict.hrmaster.web.dto;
 
+import com.poscoict.hrmaster.domain.department.Department;
 import com.poscoict.hrmaster.domain.employee.Employee;
-import com.poscoict.hrmaster.domain.stafflevel.StaffLevel;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,14 +14,12 @@ import lombok.ToString;
 @NoArgsConstructor
 
 // @지수
-public class HrStaffLevelDto {
+public class HrDepartmentDto {
 	private String code;
-	private String level;
 	private String name;
 	
-	public HrStaffLevelDto(StaffLevel staffLevel) {
-		this.code = staffLevel.getCode();
-		this.level = staffLevel.getLevel();
-		this.name = staffLevel.getName();
+	public HrDepartmentDto(Department department) {
+		this.code = department.getCode();
+		this.name = department.getName();
 	}
 }

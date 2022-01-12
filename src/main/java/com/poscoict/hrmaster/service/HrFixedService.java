@@ -37,12 +37,9 @@ public class HrFixedService {
 				.orElseThrow(() -> new IllegalArgumentException("해당 사용자 업데이트 정보가 없습니다.(for master) id=" + id));
 		Map<String, Object> employeeInfo = new HashMap<String, Object>();
 
-		System.out.println("service: " + hrFixedDto.getDepartment());
-
 		employeeInfo.put("id", hrFixedDto.getId());
 		employeeInfo.put("filesId", hrFixedDto.getFilesId());
 		employeeInfo.put("email", hrFixedDto.getEmail());
-
 		employeeInfo.put("korName", hrFixedDto.getKorName());
 		employeeInfo.put("engName", hrFixedDto.getEngName());
 		employeeInfo.put("startDate", hrFixedDto.getStartDate());
@@ -50,9 +47,9 @@ public class HrFixedService {
 		employeeInfo.put("residentNum", hrFixedDto.getResidentNum());
 		employeeInfo.put("age", hrFixedDto.getAge());
 		employeeInfo.put("gender", hrFixedDto.getGender());
-		employeeInfo.put("department", hrFixedDto.getDepartment());
-		employeeInfo.put("stafflevel", hrFixedDto.getStafflevel());
-		employeeInfo.put("jobCategory", hrFixedDto.getJobCategory());
+		employeeInfo.put("departmentName", hrFixedDto.getDepartmentName());
+		employeeInfo.put("staffLevelName", hrFixedDto.getStaffLevelName());
+		employeeInfo.put("jobCategoryName", hrFixedDto.getJobCategoryName());
 
 		entity.updateForAdmin(employeeInfo);
 		return id;

@@ -107,6 +107,7 @@ public class HrApiController {
 	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping("/hradmin/")
 	public Long save(@RequestBody HrAdminDto hrAdminDto) {
+		System.out.println("controller");
 		return hrAdminService.saveByAdmin(hrAdminDto);
 	}
 
@@ -148,8 +149,8 @@ public class HrApiController {
 	
 	//@지수
 	//staff_level 테이블 가져오기
-	@PreAuthorize("hasRole('ADMIN')")
-	@GetMapping("/hradmin/admin/stafflevel")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@GetMapping("/hradmin/stafflevel")
 	public List<StaffLevel> hrAdminfindStaffLevel() {
 		
 		return hrAdminService.findByAllStafflevel();
@@ -158,7 +159,7 @@ public class HrApiController {
 	//@지수
 	//department 테이블 가져오기
 	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-	@GetMapping("/hradmin/admin/department")
+	@GetMapping("/hradmin/department")
 	public List<Department> hrAdminfindDepartment() {
 		
 		return hrAdminService.findByAllDepartment();
@@ -167,16 +168,16 @@ public class HrApiController {
 	//@지수
 	//workplace 테이블 가져오기
 	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-	@GetMapping("/hradmin/admin/workPlace")
+	@GetMapping("/hradmin/workPlace")
 	public List<WorkPlace> hrAdminfindWorkPlace() {
 		
 		return hrAdminService.findByAllWorkPlace();
 	}
-
+	
 	//@지수
 	//jobCategory 테이블 가져오기
 	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-	@GetMapping("/hradmin/admin/jobCategory")
+	@GetMapping("/hradmin/jobCategory")
 	public List<JobCategory> hrAdminfindJobCategory() {
 		
 		return hrAdminService.findByAllJobCategory();

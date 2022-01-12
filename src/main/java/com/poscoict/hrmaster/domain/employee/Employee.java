@@ -9,8 +9,6 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -25,7 +23,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.poscoict.hrmaster.domain.department.Department;
 import com.poscoict.hrmaster.domain.files.Files;
 import com.poscoict.hrmaster.domain.jobcategory.JobCategory;
-import com.poscoict.hrmaster.domain.stafflevel.StaffLevel;
 import com.poscoict.hrmaster.domain.workplace.WorkPlace;
 
 import lombok.AccessLevel;
@@ -43,7 +40,6 @@ public class Employee implements UserDetails {
 
 	@Id
 	@Column(name = "id")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(name = "email", nullable = false)
@@ -59,17 +55,14 @@ public class Employee implements UserDetails {
 	@JoinColumn(name = "files_id", referencedColumnName = "id")
 	private Files filesId;
 
-	@ManyToOne
-	@JoinColumn(name = "department_code")
-	private Department department;
+	@Column(name = "department_name")
+	private String departmentName;
 
-	@ManyToOne
-	@JoinColumn(name = "staff_level_code")
-	private StaffLevel stafflevel;
+	@Column(name = "staff_level_name")
+	private String staffLevelName;
 
-	@ManyToOne
-	@JoinColumn(name = "job_category_code")
-	private JobCategory jobCategory;
+	@Column(name = "job_category_name")
+	private String jobCategoryName;
 
 	// @경빈
 	// bossId 데이터 타입 String에서 Long으로 변경
@@ -81,9 +74,8 @@ public class Employee implements UserDetails {
 	@JoinColumn(name = "boss_id", referencedColumnName = "boss_id", insertable = false, updatable = false)
 	private Employee employeeId;
 
-	@ManyToOne
-	@JoinColumn(name = "workplace_code")
-	private WorkPlace workPlace;
+	@Column(name = "workplace_name")
+	private String workPlaceName;
 
 	@Column(name = "kor_name")
 	private String korName;
@@ -122,8 +114,8 @@ public class Employee implements UserDetails {
 	private String address_code;
 
 	@Builder
-	public Employee(Long id, String email, String password, String role, Files filesId, Department department,
-			StaffLevel stafflevel, JobCategory jobCategory, Long bossId, Employee employeeId, WorkPlace workPlace,
+	public Employee(Long id, String email, String password, String role, Files filesId, String departmentName,
+			String staffLevelName, String jobCategoryName, Long bossId, Employee employeeId, String workPlaceName,
 			String korName, String engName, Date startDate, String residentNum, int age, String gender,
 			boolean workType, String phone, Date birthDate, String address,  String detail_address
 			, String address_code) {
@@ -134,12 +126,12 @@ public class Employee implements UserDetails {
 		this.password = password;
 		this.role = role;
 		this.filesId = filesId;
-		this.department = department;
-		this.stafflevel = stafflevel;
-		this.jobCategory = jobCategory;
+		this.departmentName = departmentName;
+		this.staffLevelName = staffLevelName;
+		this.jobCategoryName = jobCategoryName;
 		this.bossId = bossId;
 		this.employeeId = employeeId;
-		this.workPlace = workPlace;
+		this.workPlaceName = workPlaceName;
 		this.korName = korName;
 		this.engName = engName;
 		this.startDate = startDate;
@@ -199,9 +191,9 @@ public class Employee implements UserDetails {
 		this.email = (String) employeeInfo.get("email");
 		this.role = (String) employeeInfo.get("role");
 		this.filesId = (Files) employeeInfo.get("filesId");
-		this.department = (Department) employeeInfo.get("department");
-		this.stafflevel = (StaffLevel) employeeInfo.get("stafflevel");
-		this.jobCategory = (JobCategory) employeeInfo.get("jobCategory");
+		this.departmentName = (String) employeeInfo.get("departmentName");
+		this.staffLevelName = (String) employeeInfo.get("staffLevelName");
+		this.jobCategoryName = (String) employeeInfo.get("jobCategoryName");
 		this.korName = (String) employeeInfo.get("korName");
 		this.engName = (String) employeeInfo.get("engName");
 		this.startDate = (Date) employeeInfo.get("startDate");
