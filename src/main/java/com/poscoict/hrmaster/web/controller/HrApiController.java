@@ -20,8 +20,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.poscoict.hrmaster.domain.department.Department;
 import com.poscoict.hrmaster.domain.employee.Employee;
+import com.poscoict.hrmaster.domain.jobcategory.JobCategory;
 import com.poscoict.hrmaster.domain.stafflevel.StaffLevel;
+import com.poscoict.hrmaster.domain.workplace.WorkPlace;
 import com.poscoict.hrmaster.service.HrAdminService;
 import com.poscoict.hrmaster.service.HrBasicService;
 import com.poscoict.hrmaster.service.HrFixedService;
@@ -29,7 +32,6 @@ import com.poscoict.hrmaster.web.dto.HrAdminDto;
 import com.poscoict.hrmaster.web.dto.HrBasicDto;
 import com.poscoict.hrmaster.web.dto.HrFileDto;
 import com.poscoict.hrmaster.web.dto.HrFixedDto;
-import com.poscoict.hrmaster.web.dto.HrStaffLevelDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -37,14 +39,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RestController
 public class HrApiController {
-
 	private final HrFixedService hrFixedService;
 	private final HrBasicService hrBasicService;
 	private final HrAdminService hrAdminService;
 	
 	// @지수
-	// put method for employee
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	// update method for employee fixed data
+	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
 	@PutMapping("/hrfixed/{id}")
 	public Long updateByIdForEmployee(@PathVariable Long id, @RequestBody HrFixedDto hrFixedDto) {
 
@@ -63,7 +64,7 @@ public class HrApiController {
 
 	// @경빈
 	// 메서드 이름 변경: findById -> hrFixedById
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
 	@GetMapping("/hrfixed/{id}")
 	public HrFixedDto hrFixedfindById(@PathVariable Long id) {
 		return hrFixedService.findById(id);			
@@ -71,7 +72,7 @@ public class HrApiController {
 
 	// @경빈
 	// 인사기본 조회 추가
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
 	@GetMapping("/hrbasic/{id}")
 	public HrBasicDto hrBasicfindById(@PathVariable Long id) {
 		return hrBasicService.findById(id);
@@ -79,7 +80,7 @@ public class HrApiController {
 
 	// @수현
 	// put method for employee(basic)
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
 	@PutMapping("/hrbasic/{id}")
 	public Long updateByIdForBasicEmployee(@PathVariable Long id, @RequestBody HrBasicDto hrBasicDto) {
 		return hrBasicService.updateByIdForEmployee(id, hrBasicDto);
@@ -153,5 +154,31 @@ public class HrApiController {
 		
 		return hrAdminService.findByAllStafflevel();
 	}
+	
+	//@지수
+	//department 테이블 가져오기
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@GetMapping("/hradmin/admin/department")
+	public List<Department> hrAdminfindDepartment() {
+		
+		return hrAdminService.findByAllDepartment();
+	}
+	
+	//@지수
+	//workplace 테이블 가져오기
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@GetMapping("/hradmin/admin/workPlace")
+	public List<WorkPlace> hrAdminfindWorkPlace() {
+		
+		return hrAdminService.findByAllWorkPlace();
+	}
 
+	//@지수
+	//jobCategory 테이블 가져오기
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@GetMapping("/hradmin/admin/jobCategory")
+	public List<JobCategory> hrAdminfindJobCategory() {
+		
+		return hrAdminService.findByAllJobCategory();
+	}
 }
