@@ -23,7 +23,7 @@ import lombok.ToString;
 public class HrAdminDto {
 
 	private String email;
-	private Files filesId;
+	private String filesId;
 	private Long id;
 	private String password;
 	private String korName;
@@ -41,9 +41,12 @@ public class HrAdminDto {
 	private String phone;
 	private Date birthDate;
 	private String address;
+	private String addressCode;
+	private String addressDetail;
 	private String workPlaceName;
 
 	public HrAdminDto(Employee entity) {
+		this.filesId = entity.getFilesId();
 		this.id = entity.getId();
 		this.email = entity.getEmail();
 		this.korName = entity.getKorName();
@@ -62,14 +65,15 @@ public class HrAdminDto {
 		this.phone = entity.getPhone();
 		this.birthDate = entity.getBirthDate();
 		this.address = entity.getAddress();
+		this.addressCode = entity.getAddressCode();
+		this.addressDetail = entity.getAddressDetail();
 		this.workPlaceName = entity.getWorkPlaceName();
 	}
-
 	// post for admin
 	public Employee toEntity() {
 		return Employee.builder().email(email).filesId(filesId).id(id).korName(korName).engName(engName)
 				.startDate(startDate).role(role).residentNum(residentNum).age(age).gender(gender).departmentName(departmentName)
 				.staffLevelName(staffLevelName).jobCategoryName(jobCategoryName).password(password).bossId(bossId).workType(workType)
-				.phone(phone).birthDate(birthDate).address(address).workPlaceName(workPlaceName).build();
+				.phone(phone).birthDate(birthDate).address(address).addressCode(addressCode).addressDetail(addressDetail).workPlaceName(workPlaceName).build();
 	}
 }

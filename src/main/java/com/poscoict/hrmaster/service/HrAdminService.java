@@ -14,12 +14,14 @@ import javax.imageio.ImageIO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.poscoict.hrmaster.domain.department.Department;
 import com.poscoict.hrmaster.domain.department.DepartmentRepository;
 import com.poscoict.hrmaster.domain.employee.Employee;
 import com.poscoict.hrmaster.domain.employee.EmployeeRepository;
+import com.poscoict.hrmaster.domain.files.Files;
 import com.poscoict.hrmaster.domain.files.FilesRepository;
 import com.poscoict.hrmaster.domain.jobcategory.JobCategory;
 import com.poscoict.hrmaster.domain.jobcategory.JobCategoryRepository;
@@ -71,7 +73,8 @@ public class HrAdminService {
 
 	// @지수
 	// 사진 추가
-	public ResponseEntity<HrFileDto> saveImageToServer(HrFileDto hrFileDto, MultipartFile img ) {
+    @Transactional
+	public ResponseEntity<HrFileDto> saveImageToServer(HrFileDto hrFileDto, MultipartFile img, Long id ) {
 		String uploadFolder = "C:\\upload";
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = new Date();
@@ -95,11 +98,12 @@ public class HrAdminService {
 		/* 파일 위치, 파일 이름을 합친 File 객체 */
 		File saveFile = new File(uploadPath, uploadFileName);
 		
+		hrFileDto.setUserId(id);
 		hrFileDto.setName(uploadFileName);
 		hrFileDto.setPath(datePath);
 		hrFileDto.setUuid(uuid);
 		
-		fileRepository.save(hrFileDto.toEntity()).getId();
+		fileRepository.save(hrFileDto.toEntity()).getUuid();
 
 		/* 파일 저장 */
 		try {
@@ -129,33 +133,56 @@ public class HrAdminService {
 		return result;
 
 	}
-
-	public Employee getImageToWeb(Long id) {
-		Employee entity = employeeRepository.findById(id)
+    
+	//@지수
+	//사진 가져오기
+	public HrFileDto findFileById(Long id) {
+		Files files = fileRepository.findByUserId(id)
 				.orElseThrow(() -> new IllegalArgumentException("해당 정보가 없습니다. id=" + id));
 
-		return entity;
-		
+		return new HrFileDto(files);
 	}
 
+	// @지수
+	// 직책 가져오기
+    @Transactional
 	public List<StaffLevel> findByAllStafflevel() {
 		List<StaffLevel> staffLevel = stafflevelRepository.findAll();
 		return staffLevel;
 
 	}
 
+	// @지수
+	// 부서 가져오기
+    @Transactional
 	public List<Department> findByAllDepartment() {
 		List<Department> department = departmentRepository.findAll();
 		return department;
 	}
 
+    // @지수
+ 	// 근무장소 가져오기
+    @Transactional
 	public List<WorkPlace> findByAllWorkPlace() {
 		List<WorkPlace> workplace = workPlaceRepository.findAll();
 		return workplace;
 	}
 
+    // @지수
+ 	// 직렬 가져오기
+    @Transactional
 	public List<JobCategory> findByAllJobCategory() {
 		List<JobCategory> jobCategory = jobCategoryRepository.findAll();
 		return jobCategory;
 	}
+
+	// @지수
+	// 결재권자 가져오기
+    @Transactional  
+	public List<Employee> findBoss() {
+    	 return employeeRepository.findBoss();
+	}
+
+
+
 }

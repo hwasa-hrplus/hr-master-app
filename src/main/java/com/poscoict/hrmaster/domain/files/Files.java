@@ -17,13 +17,13 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "files")
 public class Files {
+
 	@Id
-	@Column(name = "id")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-		
 	@Column(name = "uuid")
 	private String uuid;
+	
+	@Column(name = "userId")
+	private Long userId;
 	
 	@Column(name = "name")
 	private String name;
@@ -32,9 +32,10 @@ public class Files {
 	private String path;
 
 	@Builder
-	public Files(long id, String uuid, String name, String path) {
+	public Files(String uuid, Long userId, String name, String path) {
 		super();
-		this.id = id;
+		
+		this.userId = userId;
 		this.uuid = uuid;
 		this.name = name;
 		this.path = path;

@@ -17,17 +17,16 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor //@Autowired 없이 생성자로 주입하는 방식
 //final이 선언된 필드를 인자값으로 하는 생성자를 생성함
 @Service
-
-// @경빈
-// 인사 기본 관련 서비스 생성
+//@경빈
+//인사 기본 관련 서비스 생성
 public class HrBasicService {
 	private final EmployeeRepository employeeRepository;
 	
 	public HrBasicDto findById(Long id){
-        Employee entity = employeeRepository.findById(id).orElseThrow(()->new IllegalArgumentException("해당 정보가 없습니다. id="+ id));
-      
-        return new HrBasicDto(entity);
-    }
+     Employee entity = employeeRepository.findById(id).orElseThrow(()->new IllegalArgumentException("해당 정보가 없습니다. id="+ id));
+   
+     return new HrBasicDto(entity);
+ }
 	
 	//@수현
 	// put method for employee(basic)
@@ -40,7 +39,7 @@ public class HrBasicService {
 		Map<String, Object> employeeInfo = new HashMap<String, Object>();
 		employeeInfo.put("phone", hrBasicDto.getPhone());
 		employeeInfo.put("address", hrBasicDto.getAddress());
-		employeeInfo.put("detail_address", hrBasicDto.getDetail_address());
+		employeeInfo.put("addressDetail", hrBasicDto.getAddressDetail());
 		
 		entity.updateForBasicEmployee(employeeInfo);
 		return id;

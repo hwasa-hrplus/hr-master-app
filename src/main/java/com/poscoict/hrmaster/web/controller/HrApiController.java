@@ -115,37 +115,43 @@ public class HrApiController {
 	// 사진 업로드
 	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	@PostMapping("/hradmin/image" )
-	public void saveImageToServer(HrFileDto hrFileDto, MultipartFile img) {
+	public void saveImageToServer(HrFileDto hrFileDto, MultipartFile img, @PathVariable Long id) {
 		System.out.println("파일 이름 : " + img.getOriginalFilename());
 		System.out.println("파일 타입 : " + img.getContentType());
 		System.out.println("파일 크기 : " + img.getSize());
-		
-		hrAdminService.saveImageToServer(hrFileDto, img);
+
+		hrAdminService.saveImageToServer(hrFileDto, img, id);
 	}
 
 	// @지수
 	// 사진 가져오기
 	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-	@GetMapping("/hradmin/image/{id}")
-	public ResponseEntity<byte[]> getImage(@PathVariable Long id){
-		Employee employeeList = hrAdminService.getImageToWeb(id);
-		String filePath = employeeList.getFilesId().getPath();
-		String name = employeeList.getFilesId().getName();
-		
-		File file = new File("C:\\upload\\"+filePath+"\\"+name);
-		ResponseEntity<byte[]> result = null;
-		
-		try {
+	// @지수
+		// 이미지 화면에 가져오기
+		@CrossOrigin("*")
+		@GetMapping("/hradmin/image/{id}")
+		public ResponseEntity<byte[]> getImage(@PathVariable Long id) {
 
-			HttpHeaders header = new HttpHeaders();
-			header.add("Content-type", Files.probeContentType(file.toPath()));
-			result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
+			HrFileDto fileList = hrAdminService.findFileById(id);
 
-		} catch (IOException e) {
-			e.printStackTrace();
+			String filePath = fileList.getPath();
+			String name = fileList.getName();
+			File file = new File("C:\\upload\\" + filePath + "\\" + name);
+
+			ResponseEntity<byte[]> result = null;
+
+			try {
+
+				HttpHeaders header = new HttpHeaders();
+				header.add("Content-type", Files.probeContentType(file.toPath()));
+				result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return result;
+
 		}
-		return result;
-	}
 	
 	//@지수
 	//staff_level 테이블 가져오기
