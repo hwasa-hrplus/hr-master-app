@@ -12,6 +12,7 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -43,14 +44,6 @@ public class HrApiController {
 	private final HrBasicService hrBasicService;
 	private final HrAdminService hrAdminService;
 
-	// @지수
-	// put method for master
-	@PutMapping("/hrfixed/admin/{id}")
-	public Long updateByIdForAdmin(@PathVariable Long id, @RequestBody HrFixedDto hrFixedDto) {
-
-		System.out.println("controller: " + hrFixedDto.getKorName());
-		return hrFixedService.updateByIdForAdmin(id, hrFixedDto);
-	}
 
 	// @지수
 	// put method for employee
@@ -62,10 +55,10 @@ public class HrApiController {
 	}
 
 	// @윤욱
-	// delete method for employee
-	@DeleteMapping("/hrfixed/{id}")
+	// delete method for admin
+	@DeleteMapping("/hradmin/{id}")
 	public Long delete(@PathVariable Long id) {
-		hrFixedService.delete(id);
+		hrAdminService.delete(id);
 		return id;
 	}
 
@@ -112,17 +105,31 @@ public class HrApiController {
 		System.out.println("controller");
 		return hrAdminService.saveByAdmin(hrAdminDto);
 	}
+	
+	// @지수
+	// 어드민 사원디테일 수정
+	@PutMapping("/hradmin/admin/{id}")
+	public Long updateEmployeeDetail(@PathVariable Long id, @RequestBody HrAdminDto hrAdminDto) {
+		System.out.println("controller");
+		return hrAdminService.updateEmployeeDetail(id, hrAdminDto);
+	}
 
 	// @지수
 	// 사진 업로드
 	@CrossOrigin("*")
 	@PostMapping("/hradmin/image/{id}")
 	public void saveImageToServer(HrFileDto hrFileDto, MultipartFile img, @PathVariable Long id) {
-		System.out.println("파일 이름 : " + img.getOriginalFilename());
-		System.out.println("파일 타입 : " + img.getContentType());
-		System.out.println("파일 크기 : " + img.getSize());
 
 		hrAdminService.saveImageToServer(hrFileDto, img, id);
+	}
+	
+	// @지수
+	// 사진 업로드 업데이트
+	@CrossOrigin("*")
+	@PutMapping("/hradmin/image/{id}")
+	public void updateImageToServer(HrFileDto hrFileDto, MultipartFile img, @PathVariable Long id) {
+		System.out.println("file: "+hrFileDto.getName());
+		hrAdminService.updateImageToServer(hrFileDto, img, id);
 	}
 
 	// @지수

@@ -23,10 +23,10 @@ import lombok.NoArgsConstructor;
 @Table(name = "files")
 public class Files {
 
-	@Id
 	@Column(name = "uuid")
 	private String uuid;
 	
+	@Id
 	@Column(name = "userId")
 	private Long userId;
 	
@@ -45,5 +45,13 @@ public class Files {
 		this.name = name;
 		this.path = path;
 
+	}
+
+	public void updateFile(Long userId, String uuid, String name, String path) {
+		this.userId = userId;
+		this.uuid = uuid;
+		this.name = name;
+		this.path = path;
+		
 	}
 }

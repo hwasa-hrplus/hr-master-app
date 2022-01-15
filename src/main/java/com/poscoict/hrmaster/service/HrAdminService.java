@@ -6,7 +6,9 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.imageio.ImageIO;
@@ -68,7 +70,6 @@ public class HrAdminService {
 	// 어드민 사원 추가
 	public Long saveByAdmin(HrAdminDto hrAdminDto) {
 		return employeeRepository.save(hrAdminDto.toEntity()).getId();
-
 	}
 
 	// @지수
@@ -103,7 +104,7 @@ public class HrAdminService {
 		hrFileDto.setPath(datePath);
 		hrFileDto.setUuid(uuid);
 		
-		fileRepository.save(hrFileDto.toEntity()).getUuid();
+		fileRepository.save(hrFileDto.toEntity()).getUserId();
 
 		/* 파일 저장 */
 		try {
@@ -183,6 +184,118 @@ public class HrAdminService {
     	 return employeeRepository.findBoss();
 	}
 
+    // @지수
+    // 사원 디테일 수정하기
+    @Transactional
+	public Long updateEmployeeDetail(Long id, HrAdminDto hrAdminDto) {
+		Employee entity = employeeRepository.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("해당 사용자 업데이트 정보가 없습니다.(for master) id=" + id));
+		Map<String, Object> employeeInfo = new HashMap<String, Object>();
 
+		System.out.println("se1"+hrAdminDto.getWorkPlaceName());
+		
+		employeeInfo.put("id", hrAdminDto.getId());
+		employeeInfo.put("filesId", hrAdminDto.getFilesId());
+		employeeInfo.put("email", hrAdminDto.getEmail());
+		employeeInfo.put("korName", hrAdminDto.getKorName());
+		employeeInfo.put("engName", hrAdminDto.getEngName());
+		employeeInfo.put("startDate", hrAdminDto.getStartDate());
+		employeeInfo.put("role", hrAdminDto.getRole());
+		employeeInfo.put("residentNum", hrAdminDto.getResidentNum());
+		employeeInfo.put("age", hrAdminDto.getAge());
+		employeeInfo.put("gender", hrAdminDto.getGender());
+		employeeInfo.put("workPlaceName", hrAdminDto.getWorkPlaceName());
+		employeeInfo.put("departmentName", hrAdminDto.getDepartmentName());
+		employeeInfo.put("staffLevelName", hrAdminDto.getStaffLevelName());
+		employeeInfo.put("jobCategoryName", hrAdminDto.getJobCategoryName());
+		employeeInfo.put("age", hrAdminDto.getAge());
+		employeeInfo.put("password", hrAdminDto.getPassword());
+		employeeInfo.put("bossId", hrAdminDto.getBossId());
+		employeeInfo.put("workType", hrAdminDto.isWorkType());
+		employeeInfo.put("phone", hrAdminDto.getPhone());
+		employeeInfo.put("birthDate", hrAdminDto.getBirthDate());
+		employeeInfo.put("address", hrAdminDto.getAddress());
+		employeeInfo.put("addressDetail", hrAdminDto.getAddressDetail());
+		employeeInfo.put("addressCode", hrAdminDto.getAddressCode());
+
+		
+		entity.updateForAdmin(employeeInfo);
+		return id;
+	}
+
+    //@지수
+    //사진 업데이트
+    @Transactional
+	public ResponseEntity<HrFileDto> updateImageToServer(HrFileDto hrFileDto, MultipartFile img, Long id) {
+    	Files entity = fileRepository.findByUserId(id)
+				.orElseThrow(() -> new IllegalArgumentException("해당 사원정보가 없습니다. id=" + id));
+    	
+		String uploadFolder = "C:\\upload";
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date();
+		String str = sdf.format(date);
+		String datePath = str.replace("-", File.separator);
+		
+		/* 폴더 생성 */
+		File uploadPath = new File(uploadFolder, datePath);
+
+		if (uploadPath.exists() == false) {
+			uploadPath.mkdirs();
+		}
+		
+		/* 파일 이름 */
+		String uploadFileName = img.getOriginalFilename();
+
+		/* uuid 적용 파일 이름 */
+		String uuid = UUID.randomUUID().toString();
+		uploadFileName = uuid + "_" + uploadFileName;
+
+		/* 파일 위치, 파일 이름을 합친 File 객체 */
+		File saveFile = new File(uploadPath, uploadFileName);
+		
+		System.out.println("serv: "+hrFileDto.getUserId());
+		
+		hrFileDto.setUserId(id);
+		hrFileDto.setName(uploadFileName);
+		hrFileDto.setPath(datePath);
+		hrFileDto.setUuid(uuid);
+		
+		entity.updateFile(hrFileDto.getUserId(),uuid, hrFileDto.getName(),hrFileDto.getPath());
+
+		/* 파일 저장 */
+		try {
+			img.transferTo(saveFile);
+			File thumbnailFile = new File(uploadPath, "s_" + uploadFileName);
+
+			BufferedImage bo_image = ImageIO.read(saveFile);
+			/* 비율 */
+			double ratio = 3;
+			/* 넓이 높이 */
+			int width = (int) (bo_image.getWidth() / ratio);
+			int height = (int) (bo_image.getHeight() / ratio);
+
+			BufferedImage bt_image = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
+
+			Graphics2D graphic = bt_image.createGraphics();
+
+			graphic.drawImage(bo_image, 0, 0, width, height, null);
+
+			ImageIO.write(bt_image, "jpg", thumbnailFile);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		ResponseEntity<HrFileDto> result = new ResponseEntity<HrFileDto>(hrFileDto, HttpStatus.OK);
+
+		return result;
+		
+	}
+    
+	@Transactional
+    public void delete(Long id){
+        Employee employee = employeeRepository.findById(id).orElseThrow(()->new IllegalArgumentException("해당 사용자가 없습니다. id="+id));
+        //postsById 메소드를 활용하면 id로 삭제할 수도 있음
+        employeeRepository.delete(employee);
+    }
 
 }

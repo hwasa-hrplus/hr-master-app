@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import com.poscoict.hrmaster.domain.employee.Employee;
 import com.poscoict.hrmaster.domain.employee.EmployeeRepository;
 import com.poscoict.hrmaster.web.dto.HrBasicDto;
-import com.poscoict.hrmaster.web.dto.HrFixedDto;
 
 import lombok.RequiredArgsConstructor;
 
