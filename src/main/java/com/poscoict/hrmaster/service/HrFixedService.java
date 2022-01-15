@@ -30,30 +30,6 @@ public class HrFixedService {
 		return new HrFixedDto(entity);
 	}
 
-	// put method for Admin
-	@Transactional
-	public Long updateByIdForAdmin(Long id, HrFixedDto hrFixedDto) {
-		Employee entity = employeeRepository.findById(id)
-				.orElseThrow(() -> new IllegalArgumentException("해당 사용자 업데이트 정보가 없습니다.(for master) id=" + id));
-		Map<String, Object> employeeInfo = new HashMap<String, Object>();
-
-		employeeInfo.put("id", hrFixedDto.getId());
-		employeeInfo.put("filesId", hrFixedDto.getFilesId());
-		employeeInfo.put("email", hrFixedDto.getEmail());
-		employeeInfo.put("korName", hrFixedDto.getKorName());
-		employeeInfo.put("engName", hrFixedDto.getEngName());
-		employeeInfo.put("startDate", hrFixedDto.getStartDate());
-		employeeInfo.put("role", hrFixedDto.getRole());
-		employeeInfo.put("residentNum", hrFixedDto.getResidentNum());
-		employeeInfo.put("age", hrFixedDto.getAge());
-		employeeInfo.put("gender", hrFixedDto.getGender());
-		employeeInfo.put("departmentName", hrFixedDto.getDepartmentName());
-		employeeInfo.put("staffLevelName", hrFixedDto.getStaffLevelName());
-		employeeInfo.put("jobCategoryName", hrFixedDto.getJobCategoryName());
-
-		entity.updateForAdmin(employeeInfo);
-		return id;
-	}
 
 	// put method for employee
 	@Transactional
@@ -71,14 +47,6 @@ public class HrFixedService {
 		entity.updateForEmployee(employeeInfo);
 		return id;
 	}
-
-	
-	@Transactional
-    public void delete(Long id){
-        Employee employee = employeeRepository.findById(id).orElseThrow(()->new IllegalArgumentException("해당 게시글이 없습니다. id="+id));
-        //postsById 메소드를 활용하면 id로 삭제할 수도 있음
-        employeeRepository.delete(employee);
-    }
 	
 	//@수현
 	// post for admin 

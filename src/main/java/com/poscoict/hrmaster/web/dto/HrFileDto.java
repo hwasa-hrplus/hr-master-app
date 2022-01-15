@@ -1,8 +1,5 @@
 package com.poscoict.hrmaster.web.dto;
 
-//@경빈
-// 불필요한 domain 데이터 import 삭제
-import com.poscoict.hrmaster.domain.employee.Employee;
 import com.poscoict.hrmaster.domain.files.Files;
 
 import lombok.Getter;

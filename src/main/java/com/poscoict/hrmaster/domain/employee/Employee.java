@@ -6,24 +6,19 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.poscoict.hrmaster.domain.department.Department;
-import com.poscoict.hrmaster.domain.files.Files;
-import com.poscoict.hrmaster.domain.jobcategory.JobCategory;
-import com.poscoict.hrmaster.domain.workplace.WorkPlace;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -33,6 +28,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
+@DynamicUpdate
 @Table(name = "employee")
 public class Employee implements UserDetails {
 
@@ -114,7 +110,7 @@ public class Employee implements UserDetails {
 
 	@Builder
 	public Employee(Long id, String email, String password, String role,  String departmentName,
-			String staffLevelName, String jobCategoryName, Long bossId, Employee employeeId, String workPlaceName,
+			String staffLevelName, String jobCategoryName, Long bossId, String workPlaceName,
 			String korName, String engName, Date startDate, String residentNum, int age, String gender,
 			boolean workType, String phone, Date birthDate, String address,  String addressDetail, String filesId
 			, String addressCode) {
@@ -129,7 +125,6 @@ public class Employee implements UserDetails {
 		this.staffLevelName = staffLevelName;
 		this.jobCategoryName = jobCategoryName;
 		this.bossId = bossId;
-		this.employeeId = employeeId;
 		this.workPlaceName = workPlaceName;
 		this.korName = korName;
 		this.engName = engName;
@@ -186,6 +181,7 @@ public class Employee implements UserDetails {
 
 	// update logic
 	public void updateForAdmin(Map<String, Object> employeeInfo) {
+	
 		this.id = (Long) employeeInfo.get("id");
 		this.email = (String) employeeInfo.get("email");
 		this.role = (String) employeeInfo.get("role");
@@ -198,7 +194,19 @@ public class Employee implements UserDetails {
 		this.startDate = (Date) employeeInfo.get("startDate");
 		this.residentNum = (String) employeeInfo.get("residentNum");
 		this.age = (int) employeeInfo.get("age");
-		this.gender = (String) employeeInfo.get("gender");
+		this.gender = (String) employeeInfo.get("gender");	
+		this.password = (String) employeeInfo.get("password");
+		this.bossId = (Long) employeeInfo.get("bossId");
+		this.workPlaceName = (String) employeeInfo.get("workPlaceName");
+		this.workType = (boolean) employeeInfo.get("workType");
+		this.phone = (String) employeeInfo.get("phone");
+		this.birthDate = (Date) employeeInfo.get("birthDate");
+		this.address = (String) employeeInfo.get("address");
+		this.addressDetail = (String) employeeInfo.get("addressDetail");
+		this.addressCode = (String) employeeInfo.get("addressCode");
+		
+		System.out.println((String) employeeInfo.get("workPlaceName"));
+		System.out.println(this.workPlaceName);
 
 	}
 
