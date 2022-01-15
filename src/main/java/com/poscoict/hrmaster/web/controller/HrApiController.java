@@ -13,6 +13,7 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -58,7 +59,7 @@ public class HrApiController {
 	@PreAuthorize("hasRole('ADMIN')")
 	@DeleteMapping("/{id}")
 	public Long delete(@PathVariable Long id) {
-		hrFixedService.delete(id);
+		hrAdminService.delete(id);
 		return id;
 	}
 
@@ -105,36 +106,65 @@ public class HrApiController {
 	// @지수
 	// 어드민 사원디테일 추가
 	@PreAuthorize("hasRole('ADMIN')")
-	@PostMapping("/hradmin/")
+	@PostMapping("/hradmin")
 	public Long save(@RequestBody HrAdminDto hrAdminDto) {
 		System.out.println("controller");
 		return hrAdminService.saveByAdmin(hrAdminDto);
+	}
+	
+	// @지수
+	// 어드민 사원디테일 수정
+	@PreAuthorize("hasRole('ADMIN')")
+	@PutMapping("/hradmin/{id}")
+	public Long updateEmployeeDetail(@PathVariable Long id, @RequestBody HrAdminDto hrAdminDto) {
+		System.out.println("controller");
+		return hrAdminService.updateEmployeeDetail(id, hrAdminDto);
 	}
 
 	// @지수
 	// 사진 업로드
 	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-	@PostMapping("/hradmin/image" )
-	public void saveImageToServer(HrFileDto hrFileDto, MultipartFile img) {
-		System.out.println("파일 이름 : " + img.getOriginalFilename());
-		System.out.println("파일 타입 : " + img.getContentType());
-		System.out.println("파일 크기 : " + img.getSize());
-		
-		hrAdminService.saveImageToServer(hrFileDto, img);
+	@CrossOrigin("*")
+	@PostMapping("/hradmin/image/{id}")
+	public void saveImageToServer(HrFileDto hrFileDto, MultipartFile img, @PathVariable Long id) {
+
+		hrAdminService.saveImageToServer(hrFileDto, img, id);
+	}
+	
+	// @지수
+	// 사진 업로드 업데이트
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@CrossOrigin("*")
+	@PutMapping("/hradmin/image/{id}")
+	public void updateImageToServer(HrFileDto hrFileDto, MultipartFile img, @PathVariable Long id) {
+		System.out.println("file: "+hrFileDto.getName());
+		hrAdminService.updateImageToServer(hrFileDto, img, id);
 	}
 
 	// @지수
-	// 사진 가져오기
+	// 사진 로컬에 가져오기
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@GetMapping("/hradmin/regist/image/{id}")
+	public Files getImageTolocal(@PathVariable Long id) {
+			hrAdminService.findFileById(id);
+		return null;
+	}
+
+	// @지수
+	// 이미지 화면에 가져오기
+	@CrossOrigin("*")
 	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	@GetMapping("/hradmin/image/{id}")
-	public ResponseEntity<byte[]> getImage(@PathVariable Long id){
-		Employee employeeList = hrAdminService.getImageToWeb(id);
-		String filePath = employeeList.getFilesId().getPath();
-		String name = employeeList.getFilesId().getName();
-		
-		File file = new File("C:\\upload\\"+filePath+"\\"+name);
+	public ResponseEntity<byte[]> getImage(@PathVariable Long id) {
+
+		HrFileDto fileList = hrAdminService.findFileById(id);
+
+		String filePath = fileList.getPath();
+		String name = fileList.getName();
+		File file = new File("C:\\upload\\" + filePath + "\\" + name);
+
 		ResponseEntity<byte[]> result = null;
-		
+
 		try {
 
 			HttpHeaders header = new HttpHeaders();
@@ -152,25 +182,25 @@ public class HrApiController {
 	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	@GetMapping("/hradmin/stafflevel")
 	public List<StaffLevel> hrAdminfindStaffLevel() {
-		
+
 		return hrAdminService.findByAllStafflevel();
 	}
-	
+
 	//@지수
 	//department 테이블 가져오기
 	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	@GetMapping("/hradmin/department")
 	public List<Department> hrAdminfindDepartment() {
-		
+
 		return hrAdminService.findByAllDepartment();
 	}
-	
+
 	//@지수
 	//workplace 테이블 가져오기
 	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	@GetMapping("/hradmin/workPlace")
 	public List<WorkPlace> hrAdminfindWorkPlace() {
-		
+
 		return hrAdminService.findByAllWorkPlace();
 	}
 	
@@ -179,7 +209,17 @@ public class HrApiController {
 	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	@GetMapping("/hradmin/jobCategory")
 	public List<JobCategory> hrAdminfindJobCategory() {
-		
+
 		return hrAdminService.findByAllJobCategory();
 	}
+	
+	// @지수
+	// role이 팀장인 id 가져오기
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@GetMapping("/hradmin/boss")
+	public List<Employee> hrAdminfindBoss() {
+
+		return hrAdminService.findBoss();
+	}
+
 }
