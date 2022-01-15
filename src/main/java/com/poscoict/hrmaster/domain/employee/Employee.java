@@ -222,7 +222,6 @@ public class Employee implements UserDetails {
 	//@수현
 	// put method for employee(basic)
 	public void updateForBasicEmployee(Map<String, Object> employeeInfo) {
-		this.phone = (String) employeeInfo.get("phone");
 		this.address = (String) employeeInfo.get("address");
 		this.addressDetail = (String) employeeInfo.get("addressDetail");
 		this.addressCode = (String) employeeInfo.get("addressCode");

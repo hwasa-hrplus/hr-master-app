@@ -26,6 +26,8 @@ public class HrBasicDto {
 	private String addressDetail;
 	private String addressCode;
 	private String workPlaceName;
+	private String email;
+	private String departmentName;
 	
 
 	public HrBasicDto(Employee entity) {
@@ -37,5 +39,7 @@ public class HrBasicDto {
 		this.addressDetail = entity.getAddressDetail();
 		this.addressCode = entity.getAddressCode();
 		this.workPlaceName = entity.getWorkPlaceName();
+		this.departmentName = entity.getDepartmentName();
+		this.email = entity.getEmail();
 	}
 }

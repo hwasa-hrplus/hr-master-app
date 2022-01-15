@@ -37,7 +37,7 @@ public class HrBasicService {
 		
 
 		Map<String, Object> employeeInfo = new HashMap<String, Object>();
-		employeeInfo.put("phone", hrBasicDto.getPhone());
+		employeeInfo.put("addressCode", hrBasicDto.getAddressCode());
 		employeeInfo.put("address", hrBasicDto.getAddress());
 		employeeInfo.put("addressDetail", hrBasicDto.getAddressDetail());
 		
