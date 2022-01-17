@@ -184,6 +184,7 @@ public class HrAdminService {
     	 return employeeRepository.findBoss();
 	}
 
+
     // @지수
     // 사원 디테일 수정하기
     @Transactional

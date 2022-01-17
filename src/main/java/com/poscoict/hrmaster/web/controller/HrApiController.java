@@ -165,6 +165,7 @@ public class HrApiController {
 
 		ResponseEntity<byte[]> result = null;
 
+
 		try {
 
 			HttpHeaders header = new HttpHeaders();
@@ -176,9 +177,10 @@ public class HrApiController {
 		}
 		return result;
 	}
+	
+	//@지수
+	//staff_level 테이블 가져오기
 
-	// @지수
-	// staff_level 테이블 가져오기
 	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	@GetMapping("/hradmin/stafflevel")
 	public List<StaffLevel> hrAdminfindStaffLevel() {

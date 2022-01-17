@@ -69,7 +69,6 @@ public class HrAdminDto {
 		this.addressDetail = entity.getAddressDetail();
 		this.workPlaceName = entity.getWorkPlaceName();
 	}
-
 	// post for admin
 	public Employee toEntity() {
 		return Employee.builder().email(email).filesId(filesId).id(id).korName(korName).engName(engName)
