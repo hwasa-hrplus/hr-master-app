@@ -64,11 +64,6 @@ public class Employee implements UserDetails {
 	@Column(name = "boss_id")
 	private Long bossId;
 
-	@ManyToOne
-	@JsonBackReference
-	@JoinColumn(name = "boss_id", referencedColumnName = "boss_id", insertable = false, updatable = false)
-	private Employee employeeId;
-
 	@Column(name = "workplace_name")
 	private String workPlaceName;
 
