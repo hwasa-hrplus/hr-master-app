@@ -92,7 +92,9 @@ public class HrApiController {
 	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("/hradmin/list")
 	public List<Employee> hrBasicfindAll() {
-		return hrAdminService.findByAll();
+		List<Employee> ret = hrAdminService.findByAll();
+		System.out.println(ret);
+		return ret;
 	}
 
 	// @지수
@@ -105,7 +107,7 @@ public class HrApiController {
 
 	// @지수
 	// 어드민 사원디테일 추가
-	@PreAuthorize("hasRole('ADMIN')")
+	//@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping("/hradmin")
 	public Long save(@RequestBody HrAdminDto hrAdminDto) {
 		System.out.println("controller");

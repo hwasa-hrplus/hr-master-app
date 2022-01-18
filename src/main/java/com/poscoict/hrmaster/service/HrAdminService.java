@@ -7,18 +7,24 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.imageio.ImageIO;
 import javax.transaction.Transactional;
 
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.poscoict.hrmaster.domain.department.Department;
 import com.poscoict.hrmaster.domain.department.DepartmentRepository;
 import com.poscoict.hrmaster.domain.employee.Employee;
@@ -31,8 +37,10 @@ import com.poscoict.hrmaster.domain.stafflevel.StaffLevel;
 import com.poscoict.hrmaster.domain.stafflevel.StaffLevelRepository;
 import com.poscoict.hrmaster.domain.workplace.WorkPlace;
 import com.poscoict.hrmaster.domain.workplace.WorkPlaceRepository;
+import com.poscoict.hrmaster.web.dto.EmployeeBossResponseDto;
 import com.poscoict.hrmaster.web.dto.HrAdminDto;
 import com.poscoict.hrmaster.web.dto.HrFileDto;
+import com.poscoict.hrmaster.web.dto.SignupRequest;
 
 import lombok.RequiredArgsConstructor;
 
@@ -68,9 +76,41 @@ public class HrAdminService {
 
 	// @지수
 	// 어드민 사원 추가
+	@Autowired
+	RabbitTemplate rabbitTemplate;
 	public Long saveByAdmin(HrAdminDto hrAdminDto) {
-		return employeeRepository.save(hrAdminDto.toEntity()).getId();
-	}
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonInString="";
+		String empBossDataString = "";
+		Set<String> inputRole = new HashSet<>();
+		inputRole.add(hrAdminDto.getRole());
+		
+		SignupRequest signupData = new SignupRequest(hrAdminDto.getEmail(), inputRole, //set<String> role 줘야함
+				hrAdminDto.getKorName(), hrAdminDto.getPassword(), hrAdminDto.getId());
+		EmployeeBossResponseDto empBossData = new EmployeeBossResponseDto(hrAdminDto.getId(), hrAdminDto.getBossId());
+		
+		try {
+			jsonInString = mapper.writeValueAsString(signupData);
+			empBossDataString = mapper.writeValueAsString(empBossData);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+		
+		System.out.println(empBossDataString+ empBossDataString.getClass().getName());
+		rabbitTemplate.convertAndSend(
+			"Exchange",
+			"signup", //주는 놈의 고유 식별키(Routing key)
+			jsonInString
+		);
+		
+		rabbitTemplate.convertAndSend(
+				"Exchange",
+				"empboss", //주는 놈의 고유 식별키(Routing key)
+				empBossDataString
+			);
+	return employeeRepository.save(hrAdminDto.toEntity()).getId();
+}
 
 	// @지수
 	// 사진 추가

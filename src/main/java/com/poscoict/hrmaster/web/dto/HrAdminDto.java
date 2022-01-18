@@ -1,13 +1,11 @@
 package com.poscoict.hrmaster.web.dto;
 
 import java.util.Date;
+import java.util.Set;
 
 //@경빈
 // 불필요한 domain 데이터 import 삭제
 import com.poscoict.hrmaster.domain.employee.Employee;
-import com.poscoict.hrmaster.domain.files.Files;
-import com.poscoict.hrmaster.domain.jobcategory.JobCategory;
-import com.poscoict.hrmaster.domain.workplace.WorkPlace;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -52,9 +50,9 @@ public class HrAdminDto {
 		this.korName = entity.getKorName();
 		this.engName = entity.getEngName();
 		this.startDate = entity.getStartDate();
-		this.role = entity.getRole();
 		this.residentNum = entity.getResidentNum();
 		this.age = entity.getAge();
+		this.role = entity.getRole();
 		this.gender = entity.getGender();
 		this.departmentName = entity.getDepartmentName();
 		this.staffLevelName = entity.getStaffLevelName();
@@ -71,8 +69,11 @@ public class HrAdminDto {
 	}
 	// post for admin
 	public Employee toEntity() {
-		return Employee.builder().email(email).filesId(filesId).id(id).korName(korName).engName(engName)
-				.startDate(startDate).role(role).residentNum(residentNum).age(age).gender(gender).departmentName(departmentName)
+		String inputRole="";
+		if(this.role =="user") inputRole= "팀원";
+		else inputRole= "팀장";
+		return Employee.builder().email(email).filesId(filesId).id(id).korName(korName).engName(engName).role(inputRole)
+				.startDate(startDate).residentNum(residentNum).age(age).gender(gender).departmentName(departmentName)
 				.staffLevelName(staffLevelName).jobCategoryName(jobCategoryName).password(password).bossId(bossId).workType(workType)
 				.phone(phone).birthDate(birthDate).address(address).addressCode(addressCode).addressDetail(addressDetail).workPlaceName(workPlaceName).build();
 	}
