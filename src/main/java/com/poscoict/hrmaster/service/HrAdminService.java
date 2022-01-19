@@ -98,17 +98,19 @@ public class HrAdminService {
 		}		
 		
 		System.out.println(empBossDataString+ empBossDataString.getClass().getName());
+		
+		
 		rabbitTemplate.convertAndSend(
 			"Exchange",
-			"signup", //주는 놈의 고유 식별키(Routing key)
-			jsonInString
+			"empboss", //주는 놈의 고유 식별키(Routing key)
+			empBossDataString
 		);
 		
 		rabbitTemplate.convertAndSend(
-				"Exchange",
-				"empboss", //주는 놈의 고유 식별키(Routing key)
-				empBossDataString
-			);
+			"Exchange",
+			"auth", //주는 놈의 고유 식별키(Routing key)
+			jsonInString
+		);
 	return employeeRepository.save(hrAdminDto.toEntity()).getId();
 }
 

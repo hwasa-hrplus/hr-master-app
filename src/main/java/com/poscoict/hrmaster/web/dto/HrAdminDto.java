@@ -70,7 +70,8 @@ public class HrAdminDto {
 	// post for admin
 	public Employee toEntity() {
 		String inputRole="";
-		if(this.role =="user") inputRole= "팀원";
+		System.out.println(this.role); 
+		if(this.role.contains("user")) inputRole= "팀원";
 		else inputRole= "팀장";
 		return Employee.builder().email(email).filesId(filesId).id(id).korName(korName).engName(engName).role(inputRole)
 				.startDate(startDate).residentNum(residentNum).age(age).gender(gender).departmentName(departmentName)
